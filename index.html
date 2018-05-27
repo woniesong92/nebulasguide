@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>API Reference</title>
+    <title>Nebulas Guide</title>
 
     <style>
       .highlight table td { padding: 5px; }
@@ -201,7 +201,7 @@
       <script src="javascripts/all.js"></script>
   </head>
 
-  <body class="index" data-languages="[&quot;shell&quot;,&quot;ruby&quot;,&quot;python&quot;,&quot;javascript&quot;]">
+  <body class="index" data-languages="[&quot;javascript&quot;]">
     <a href="#" id="nav-button">
       <span>
         NAV
@@ -211,9 +211,6 @@
     <div class="toc-wrapper">
       <img src="images/logo.png" class="logo" alt="Logo" />
         <div class="lang-selector">
-              <a href="#" data-language-name="shell">shell</a>
-              <a href="#" data-language-name="ruby">ruby</a>
-              <a href="#" data-language-name="python">python</a>
               <a href="#" data-language-name="javascript">javascript</a>
         </div>
         <div class="search">
@@ -225,7 +222,21 @@
             <a href="#introduction" class="toc-h1 toc-link" data-title="introduction">Introduction</a>
           </li>
           <li>
-            <a href="#authentication" class="toc-h1 toc-link" data-title="authentication">Authentication</a>
+            <a href="#quickstart" class="toc-h1 toc-link" data-title="quickstart">Quickstart</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#create-react-app" class="toc-h2 toc-link" data-title="create-react-app">Create React app</a>
+                  </li>
+                  <li>
+                    <a href="#write-smart-contract" class="toc-h2 toc-link" data-title="write-smart-contract">Write Smart Contract</a>
+                  </li>
+                  <li>
+                    <a href="#deploy-smart-contract" class="toc-h2 toc-link" data-title="deploy-smart-contract">Deploy Smart Contract</a>
+                  </li>
+                  <li>
+                    <a href="#interact-with-smart-contract" class="toc-h2 toc-link" data-title="interact-with-smart-contract">Interact with Smart Contract</a>
+                  </li>
+              </ul>
           </li>
           <li>
             <a href="#kittens" class="toc-h1 toc-link" data-title="kittens">Kittens</a>
@@ -254,52 +265,178 @@
       <div class="dark-box"></div>
       <div class="content">
         <h1 id='introduction'>Introduction</h1>
-<p>Welcome to the Nebulas Guide! You can use our API to access Kittn API endpoints, which can get information on various cats, kittens, and breeds in our database.</p>
+<p>Welcome to the Nebulas Guide! You can use this document to kickstart your project in Nebulas. This guide is authored by <a href="https://howonsong.com/">Howon</a>.</p>
 
-<p>We have language bindings in Shell, Ruby, and Python! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.</p>
+<p>The only prerequisites for this guide are the following:</p>
 
-<p>This example API documentation page was created with <a href="https://github.com/lord/slate">Slate</a>. Feel free to edit it and use it as a base for your own API&#39;s documentation.</p>
-<h1 id='authentication'>Authentication</h1>
+<ul>
+<li>JavaScript</li>
+<li>React</li>
+</ul>
+<h1 id='quickstart'>Quickstart</h1>
+<p>In Quickstart, we will deploy a simple React app to Nebulas.</p>
+<h2 id='create-react-app'>Create React app</h2>
 <blockquote>
-<p>To authorize, use this code:</p>
+<p>1.Create a react app:</p>
 </blockquote>
-<pre class="highlight ruby tab-ruby"><code><span class="nb">require</span> <span class="s1">'kittn'</span>
+<pre class="highlight shell tab-shell"><code><span class="gp">$ </span>npm install -g create-react-app
 
-<span class="n">api</span> <span class="o">=</span> <span class="no">Kittn</span><span class="o">::</span><span class="no">APIClient</span><span class="p">.</span><span class="nf">authorize!</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">)</span>
-</code></pre><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">kittn</span>
-
-<span class="n">api</span> <span class="o">=</span> <span class="n">kittn</span><span class="o">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'meowmeowmeow'</span><span class="p">)</span>
-</code></pre><pre class="highlight shell tab-shell"><code><span class="c"># With shell, you can just pass the correct header with each request</span>
-curl <span class="s2">"api_endpoint_here"</span>
-  -H <span class="s2">"Authorization: meowmeowmeow"</span>
-</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">kittn</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'kittn'</span><span class="p">);</span>
-
-<span class="kd">let</span> <span class="nx">api</span> <span class="o">=</span> <span class="nx">kittn</span><span class="p">.</span><span class="nx">authorize</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">);</span>
+<span class="gp">$ </span>create-react-app my-nebulas
 </code></pre>
 <blockquote>
-<p>Make sure to replace <code>meowmeowmeow</code> with your API key.</p>
+<p>2.Verify that your react app is created successfully:</p>
 </blockquote>
+<pre class="highlight shell tab-shell"><code><span class="gp">$ </span><span class="nb">cd </span>my-nebulas
 
-<p>Kittn uses API keys to allow access to the API. You can register a new Kittn API key at our <a href="http://example.com/developers">developer portal</a>.</p>
+<span class="gp">$ </span>yarn start
+</code></pre>
+<p>You should see this screen when your react app is running.</p>
 
-<p>Kittn expects for the API key to be included in all API requests to the server in a header that looks like the following:</p>
+<p><img src="images/react-start.png" alt="React" /></p>
 
-<p><code>Authorization: meowmeowmeow</code></p>
+<p>For our first app, we will build an app that lets users share doc pictures on Nebulas. For now, let&#39;s just grab a cute dog picture and show it in our app.</p>
 
-<aside class="notice">
-You must replace <code>meowmeowmeow</code> with your personal API key.
-</aside>
-<h1 id='kittens'>Kittens</h1><h2 id='get-all-kittens'>Get All Kittens</h2><pre class="highlight ruby tab-ruby"><code><span class="nb">require</span> <span class="s1">'kittn'</span>
+<blockquote>
+<p>3.Modify your React component like this:</p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code><span class="kr">import</span> <span class="nx">React</span><span class="p">,</span> <span class="p">{</span> <span class="nx">Component</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">'react'</span><span class="p">;</span>
 
-<span class="n">api</span> <span class="o">=</span> <span class="no">Kittn</span><span class="o">::</span><span class="no">APIClient</span><span class="p">.</span><span class="nf">authorize!</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="p">.</span><span class="nf">kittens</span><span class="p">.</span><span class="nf">get</span>
-</code></pre><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">kittn</span>
+<span class="kr">class</span> <span class="nx">App</span> <span class="kr">extends</span> <span class="nx">Component</span> <span class="p">{</span>
+  <span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// Create mock dog objects. We will replace these with</span>
+    <span class="c1">// real data later.</span>
+    <span class="kr">const</span> <span class="nx">dogs</span> <span class="o">=</span> <span class="p">[</span>
+      <span class="p">{</span>
+        <span class="na">name</span><span class="p">:</span> <span class="s2">"Dog1"</span><span class="p">,</span>
+        <span class="na">url</span><span class="p">:</span> <span class="s2">"/dog1.jpg"</span>
+      <span class="p">},</span>
+      <span class="p">{</span>
+        <span class="na">name</span><span class="p">:</span> <span class="s2">"Dog2"</span><span class="p">,</span>
+        <span class="na">url</span><span class="p">:</span> <span class="s2">"/dog2.jpg"</span>
+      <span class="p">},</span>
+    <span class="p">]</span>
 
-<span class="n">api</span> <span class="o">=</span> <span class="n">kittn</span><span class="o">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="o">.</span><span class="n">kittens</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
-</code></pre><pre class="highlight shell tab-shell"><code>curl <span class="s2">"http://example.com/api/kittens"</span>
-  -H <span class="s2">"Authorization: meowmeowmeow"</span>
-</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">kittn</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'kittn'</span><span class="p">);</span>
+    <span class="k">return</span> <span class="p">(</span>
+      <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">"App"</span><span class="o">&gt;</span>
+        <span class="p">{</span><span class="nx">dogs</span><span class="p">.</span><span class="nx">map</span><span class="p">((</span><span class="nx">dog</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">(</span>
+          <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>
+            <span class="o">&lt;</span><span class="nx">label</span><span class="o">&gt;</span><span class="p">{</span><span class="nx">dog</span><span class="p">.</span><span class="nx">name</span><span class="p">}</span><span class="o">&lt;</span><span class="sr">/label</span><span class="err">&gt;
+</span>            <span class="o">&lt;</span><span class="nx">img</span> <span class="nx">src</span><span class="o">=</span><span class="p">{</span><span class="nx">dog</span><span class="p">.</span><span class="nx">url</span><span class="p">}</span> <span class="sr">/</span><span class="err">&gt;
+</span>          <span class="o">&lt;</span><span class="sr">/div&gt; </span><span class="err"> 
+</span>        <span class="p">))}</span>
+      <span class="o">&lt;</span><span class="sr">/div</span><span class="err">&gt;
+</span>    <span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kr">export</span> <span class="k">default</span> <span class="nx">App</span><span class="p">;</span>
+</code></pre>
+<p>Here is an adorable picture:</p>
+
+<p><img src="images/dog1.jpg" alt="Dog1" /></p>
+
+<p>Once you&#39;ve modified your React app, you should be seeing two dogs with labels and pictures.
+We are <em>mocking</em> data here with a couple of dog objects. Let&#39;s replace them with actual data from Nebulas!</p>
+<h2 id='write-smart-contract'>Write Smart Contract</h2>
+<blockquote>
+<p>4.Create a new contract file:</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code><span class="gp">$ </span>mkdir contract
+<span class="gp">$ </span>vim contract/firstcontract.js
+</code></pre><pre class="highlight javascript tab-javascript"><code><span class="c1">// contract/firstcontract.js</span>
+<span class="kd">var</span> <span class="nx">Dog</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">jsonString</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">jsonString</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">jsonString</span><span class="p">)</span>
+
+    <span class="k">this</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="nx">obj</span><span class="p">.</span><span class="nx">name</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">url</span> <span class="o">=</span> <span class="nx">obj</span><span class="p">.</span><span class="nx">url</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="s2">""</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">url</span> <span class="o">=</span> <span class="s2">""</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="nx">Dog</span><span class="p">.</span><span class="nx">prototype</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">toString</span><span class="p">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="k">this</span><span class="p">)</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">var</span> <span class="nx">FirstContract</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+  <span class="c1">// Define storage properties (i.e. we will have two "storage variables" in our contract)</span>
+  <span class="nx">LocalContractStorage</span><span class="p">.</span><span class="nx">defineProperty</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="s2">"numDogs"</span><span class="p">)</span>
+  <span class="nx">LocalContractStorage</span><span class="p">.</span><span class="nx">defineMapProperty</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="s2">"dogs"</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="nx">FirstContract</span><span class="p">.</span><span class="nx">prototype</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="c1">// init() will run when you first deploy</span>
+  <span class="na">init</span><span class="p">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">numDogs</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="kd">var</span> <span class="nx">dogs</span> <span class="o">=</span> <span class="p">[</span>
+      <span class="p">{</span>
+        <span class="na">name</span><span class="p">:</span> <span class="s2">"Dog1"</span><span class="p">,</span>
+        <span class="na">url</span><span class="p">:</span> <span class="s2">"dog1.jpg"</span>
+      <span class="p">},</span>
+      <span class="p">{</span>
+        <span class="na">name</span><span class="p">:</span> <span class="s2">"Dog2"</span><span class="p">,</span>
+        <span class="na">url</span><span class="p">:</span> <span class="s2">"dog2.jpg"</span>
+      <span class="p">},</span>
+    <span class="p">]</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">i</span><span class="o">&lt;</span><span class="nx">dogs</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+      <span class="kd">var</span> <span class="nx">dog</span> <span class="o">=</span> <span class="nx">dogs</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span>
+
+      <span class="k">this</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">dog</span><span class="p">.</span><span class="nx">name</span><span class="p">,</span> <span class="nx">dog</span><span class="p">.</span><span class="nx">url</span><span class="p">)</span>
+    <span class="p">}</span>
+  <span class="p">},</span>
+
+  <span class="c1">// add() will add a new dog to your contract's storage</span>
+  <span class="na">add</span><span class="p">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">name</span><span class="p">,</span> <span class="nx">url</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">dog</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Dog</span><span class="p">(</span><span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">({</span>
+      <span class="na">name</span><span class="p">:</span> <span class="nx">name</span><span class="p">,</span>
+      <span class="na">url</span><span class="p">:</span> <span class="nx">url</span><span class="p">,</span>
+    <span class="p">}))</span>
+
+    <span class="k">this</span><span class="p">.</span><span class="nx">dogs</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">numDogs</span><span class="p">,</span> <span class="nx">dog</span><span class="p">)</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">numDogs</span> <span class="o">+=</span> <span class="mi">1</span>
+  <span class="p">},</span>
+<span class="p">}</span>
+
+<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="nx">FirstContract</span>
+</code></pre>
+<p>Let&#39;s write our first smart contract. A smart contract is basically just a javascript file that will have access to Nebulas&#39; API when deployed.
+Unlike Ethereum, you do not have to learn a new langauge (e.g. Solidity).</p>
+
+<p>In this simple smart contract, we first define a simple <code>Dog</code> constructor that takes in a stringified json and creates a <code>Dog</code> object.</p>
+
+<p>Then, we define the main contract with only two functions: <code>init</code> and <code>add</code>. When you define an <code>init</code> function, this will be executed when you first deploy your smtart contract to Nebulas. For example, if you want to <em>populate</em> your contract with a few cute dogs before users upload new dogs, this is the right place.</p>
+
+<p>If you already know JavaSript, every line should be familar except for the lines that have <code>LocalContractStorage</code> in them. <code>LocalContractStorage</code> is a reserved function, which lets you have access to Nebulas&#39; storage. Think of <code>LocalContractStorage.defineProperty(this, &quot;numDogs&quot;)</code> as saying <em>&quot;I am going to create a persistent variable <code>numDogs</code> in Nebulas&quot;</em>. The difference between <code>defineProperty</code> and <code>defineMapProperty</code> is simply that the former is a primitive-type store while the latter is a key-value store.</p>
+<h2 id='deploy-smart-contract'>Deploy Smart Contract</h2>
+<blockquote>
+<p>5.Download Web Wallet</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code><span class="gp">$ </span>git clone git@github.com:nebulasio/web-wallet.git
+<span class="gp">$ </span><span class="nb">cd </span>web-wallet
+
+// Open index.html <span class="k">in </span>your browser and create a wallet on Testnet
+</code></pre>
+<p>We are ready to deploy our simple contract to Nebulas. To deploy a contract to Nebulas, you need to have some NAS, the currency used on Nebulas&#39; network. To get NAS and deploy a contract to Nebulas, you need the <a href="https://github.com/nebulasio/web-wallet">Web Wallet</a>. Download it and open <code>index.html</code> in your browser to see the interface.</p>
+
+<p><img src="images/web-wallet1.jpg" alt="Web Wallet" /></p>
+
+<p>We are going to deploy our contract to Testnet. Think of Testnet as a staging server and Mainnet as production server. We will deploy to Testnet because it will let us test our contract without spending real NAS. You can ask for free NAS on Testnet by visiting the <a href="https://testnet.nebulas.io/claim">Faucet</a>. For wallet address, you can use the one you just created. You will have your free NAS within minutes.</p>
+
+<p>Now that we have some NAS on Testnet, we can finally deploy our contract to Testnet. Go to the Contract tab, and simply copy our contract&#39;s content and paste it into the code section.</p>
+
+<p><img src="images/deploy.jpg" alt="Deploy" /></p>
+
+<p>After you deploy (i.e. submit) your contract, you will get the transaction hash and the deployed contract&#39;s address. Copy the address, as we will have to use it in our React app to interact with the contract.</p>
+
+<p><img src="images/contract-address.jpg" alt="Contract Address" /></p>
+
+<p>Congratulations! You have your first contract deployed to Nebulas.</p>
+<h2 id='interact-with-smart-contract'>Interact with Smart Contract</h2><h1 id='kittens'>Kittens</h1><h2 id='get-all-kittens'>Get All Kittens</h2><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">kittn</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'kittn'</span><span class="p">);</span>
 
 <span class="kd">let</span> <span class="nx">api</span> <span class="o">=</span> <span class="nx">kittn</span><span class="p">.</span><span class="nx">authorize</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">);</span>
 <span class="kd">let</span> <span class="nx">kittens</span> <span class="o">=</span> <span class="nx">api</span><span class="p">.</span><span class="nx">kittens</span><span class="p">.</span><span class="nx">get</span><span class="p">();</span>
@@ -494,9 +631,6 @@ This error section is stored in a separate file in <code>includes/_errors.md</co
       </div>
       <div class="dark-box">
           <div class="lang-selector">
-                <a href="#" data-language-name="shell">shell</a>
-                <a href="#" data-language-name="ruby">ruby</a>
-                <a href="#" data-language-name="python">python</a>
                 <a href="#" data-language-name="javascript">javascript</a>
           </div>
       </div>
