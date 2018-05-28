@@ -358,3 +358,69 @@ Remember how we wanted to let users add dogs to our contract? Since our contract
 When you look at the function `onAddDog()` on the right side, you will notice that it is extremly similar to the function `fetchDogs()` we wrote above. The biggest difference is that instead of using the nebulas api directly, we are now using the `nebpay` package. This package lets users interact with your smart contract directly via either the [Chrome extension](https://github.com/ChengOrangeJu/WebExtensionWallet) or the mobile nebulas wallet. In other words, `nebpay` lets end users sign and send transactions to your smart contract.
 
 Why is it needed? It's because altering the state in Nebulas blockchain requires a small amount of NAS, just like how Ethereum requires GAS for altering its state. While calling the `getDogs()` function does not alter the state, `addDog()` does. Consequently, users who want to add a dog to your smart contract must sign and send the transaction to your contract by paying a small fee. `nebpay` allows you to implement such interaction as easily as just using the `nebulas` package.
+
+As a result of `nebPay.call()`, you get a transaction hash and you can optionally pass in a listener to know when the transaction has been confirmed. However, for now, we will just leave the code as simple as it is on the right side. Try clicking the button `Add Dog` and refresh the page in 30 seconds to 1 minute (i.e. the time it takes for the transaction to be confirmed on Testnet). Verify that you see an added dog in your app.
+
+## Add Validation
+
+> Add a new property `author` where we will store deployer's address
+
+```javascript
+var FirstContract = function () {
+  LocalContractStorage.defineProperty(this, "numDogs")
+  LocalContractStorage.defineMapProperty(this, "dogs")
+  LocalContractStorage.defineProperty(this, "author")
+}
+...
+```
+
+> In `init()`, set author to be the deployer (i.e. you)
+> and check if the sender is the author in `addDog()`
+
+```javascript
+FirstContract.prototype = {
+  init: function() {
+    ...
+    this.author = Blockchain.transaction.from
+  },
+  addDog: function(name, url) {
+    if (Blockchain.transaction.from !== this.author) {
+      throw new Error("You are not the author")
+    }
+
+    var dog = new Dog(JSON.stringify({
+      name: name,
+      url: url,
+    }))
+
+    this.dogs.set(this.numDogs, dog)
+    this.numDogs += 1
+  },
+}
+```
+
+But do you really want to let everyone add Dog to your app? Well, adding a dog to your app now is harmless, but what if you want to build a [dapp](http://naswarriors.soulchain.org) that should only let authors add new items?
+
+To do this, we need to add validation. More specifically, in the function that adds a new dog, we need to check whether the *user* (i.e. the person who just sent a transaction to our contract) is the author. In other words, we want to validate that `user.address === author.address`. How do we get the author's address and the user's address?
+
+The author is the person who deploys the app. In the `init()` function, we have access to the deployer's address in the property `Blockchain.transaction.from`. `Blockchain.transaction` is also another special object that is available in a Nebulas smart contract that lets you access certain properties of a transaction. The counterpart of `Blockchain.transaction.from` is `Blockchain.transaction.to`. For now, we just need to add a new property `author` after `dogs` and `numDogs` so that we can store the author's address.
+
+In the function `addDog()` we can access the user's address the same way. Compare it with the author's address that we stored in the `init()` function and throw an error if they don't match. When you throw an error, the function will return with the error immediately. On the front end, if the contract throws any kind of an error as a result of user's transaction, you will get the error's message in response.
+
+## Deploy to Production
+
+This is the final section of the Quickstart! Now that we have built our first dapp, we have to deploy to production to be able to share it with other users. Deploying to production means hosting your frontend in a public address and deploying your smart contract to Mainnet.
+
+### Host your frontend
+
+If you want to use Nebulas as the primary backend, hosting your frontend is easy and free. Just build your project with yarn and upload your build folder to your favorite hosting service. This [guide](https://www.codementor.io/yurio/all-you-need-is-react-firebase-4v7g9p4kf) goes through how you can host your React app with Firebase. You can also just host it on [GitHub Pages](https://pages.github.com/). Whichever platform you decide to use, remember to change your Nebulas URL from `https://testnet.nebulas.io` to `https://mainnet.nebulas.io`.
+
+If you want to use your own backend in addition to Nebulas, here are a few options: [Heroku](https://heroku.com), [Digital Ocean](https://www.digitalocean.com/), [AWS EC2](https://aws.amazon.com/ec2/).
+
+### Deploy your contract to Mainnet
+
+Deploying your contract to Mainnet is exactly the same as deploying it to Testnet. Simply choose Mainnet instead of Testnet for your deployment environment. The main difference is that to deploy to Mainnet, you need real NAS (i.e. you cannot use the NAS you got from the testnet faucet). To get real NAS, you can purchase it from the [exchanges](https://coinmarketcap.com/currencies/nebulas-token/#markets) that have NAS and transfer it to your Mainnet wallet.
+
+![Web-wallet2](web-wallet2.jpg)
+
+Congratulations! Now you have officially built and deployed a Dapp to the world.
