@@ -115,7 +115,7 @@ Dog.prototype = {
 }
 
 var FirstContract = function () {
-  // Define storage properties (i.e. we will have two "storage variables" in our contract)
+  // Define storage properties
   LocalContractStorage.defineProperty(this, "numDogs")
   LocalContractStorage.defineMapProperty(this, "dogs")
 }
@@ -408,7 +408,7 @@ This is the final section of the Quickstart! Now that we have built our first da
 
 ### Host your frontend
 
-If you want to use Nebulas as the primary backend, hosting your frontend is easy and free. Just build your project with yarn and upload your build folder to your favorite hosting service. This [guide](https://www.codementor.io/yurio/all-you-need-is-react-firebase-4v7g9p4kf) goes through how you can host your React app with Firebase. You can also just host it on [GitHub Pages](https://pages.github.com/). Whichever platform you decide to use, remember to change your Nebulas URL from `https://testnet.nebulas.io` to `https://mainnet.nebulas.io`.
+If you want to use Nebulas as the primary backend, hosting your frontend is easy and free. Just build your project with yarn and upload your build folder to your favorite hosting service. This [guide](https://www.codementor.io/yurio/all-you-need-is-react-firebase-4v7g9p4kf) goes through how you can host your React app with Firebase. You can also just host it on [GitHub Pages](https://pages.github.com/). Also remember to change your Nebulas URL from `https://testnet.nebulas.io` to `https://mainnet.nebulas.io`.
 
 If you want to use your own backend in addition to Nebulas, here are a few options: [Heroku](https://heroku.com), [Digital Ocean](https://www.digitalocean.com/), [AWS EC2](https://aws.amazon.com/ec2/).
 
@@ -428,8 +428,11 @@ Check out the following places to learn about Nebulas further.
 - [Nebulas Resources](https://nebulas.io/resources.html)
 - [Nebulas Subreddit](https://www.reddit.com/r/nebulas)
 - [Nebulas Medium](https://medium.com/@nebulasio)
+- [Soulchain.org](http://soulchain.org)
 
 # API
+
+This section is a modification of the [wiki](https://github.com/nebulasio/wiki/blob/master/smart_contract.md). If you prefer Chinese, read this [doc](https://github.com/nebulasio/wiki/blob/master/smart_contract_ch.md).
 
 ## Blockchain
 
@@ -644,7 +647,6 @@ The `BigNumber` module use the [bignumber.js](https://github.com/MikeMcl/bignumb
 
 ```javascript
   // Event.Trigger("eventName", customObject)
-
   Event.Trigger("transfer", {
     Transfer: {
       from: Blockchain.transaction.to,
@@ -728,7 +730,7 @@ BankVaultContract.prototype = {
 module.exports = BankVaultContract;
 ```
 
-NOTE:
+There are some limitations in Nebulas' `Date` function.
 
 * Unsupported methods：`toDateString()`, `toTimeString()`, `getTimezoneOffset()`, `toLocaleXXX()`.
 * `new Date()`/`Date.now()` returns the timestamp of current block in milliseconds.
