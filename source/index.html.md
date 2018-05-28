@@ -12,16 +12,11 @@ search: true
 
 # Introduction
 
-Welcome to the Nebulas Guide! You can use this document to kickstart your project in Nebulas. This guide is authored by [Howon](https://howonsong.com/).
-
-The only prerequisites for this guide are the following:
-
-* JavaScript
-* React
+This is Nebulas Guide. Use this guide to get ahead on blockchain programming on Nebulas. This guide includes both a step-by-step tutorial to build a dapp from scratch and deploy it to production and documentation for the most frequently used properties on Nebulas. To follow this guide, you only need to know JavaScript and [React](https://reactjs.org/).
 
 # Quickstart
 
-In Quickstart, we will deploy a simple React app to Nebulas.
+In Quickstart, we will build a dapp from scratch and deploy it to production. In this section, we will build a simple React app that interacts with a smart contract on Nebulas.
 
 ## Create React app
 
