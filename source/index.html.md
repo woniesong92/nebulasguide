@@ -5,7 +5,7 @@ language_tabs: # must be one of https://git.io/vQNgJ
   - javascript
 
 toc_footers:
-  - <a href='http://soulchain.org'>Soulchain</a>
+  - <a href='http://soulchain.org'>Soulchain.org</a>
 
 search: true
 ---
@@ -54,11 +54,11 @@ class App extends Component {
     const dogs = [
       {
         name: "Dog1",
-        url: "/dog1.jpg"
+        url: "https://woniesong92.github.io/nebulasguide/images/dog1.jpg"
       },
       {
         name: "Dog2",
-        url: "/dog2.jpg"
+        url: "https://woniesong92.github.io/nebulasguide/images/dog2.jpg"
       },
     ]
 
@@ -127,11 +127,11 @@ FirstContract.prototype = {
     var dogs = [
       {
         name: "Dog1",
-        url: "dog1.jpg"
+        url: "https://woniesong92.github.io/nebulasguide/images/dog1.jpg"
       },
       {
         name: "Dog2",
-        url: "dog2.jpg"
+        url: "https://woniesong92.github.io/nebulasguide/images/dog2.jpg"
       },
     ]
 
@@ -309,7 +309,7 @@ class App extends Component {
   onAddDog() {
     const newDog = {
       name: "myDog",
-      url: "someUrl.jpg"
+      url: "https://woniesong92.github.io/nebulasguide/images/dog3.jpg"
     }
     const nebPay = new NebPay()
     const price = 0
@@ -419,3 +419,532 @@ Deploying your contract to Mainnet is exactly the same as deploying it to Testne
 ![Web-wallet2](web-wallet2.jpg)
 
 Congratulations! Now you have officially built and deployed a Dapp to the world.
+
+## Next steps
+
+Check out the following places to learn about Nebulas further.
+
+- [API document](#api)
+- [Nebulas Resources](https://nebulas.io/resources.html)
+- [Nebulas Subreddit](https://www.reddit.com/r/nebulas)
+- [Nebulas Medium](https://medium.com/@nebulasio)
+
+# API
+
+## Blockchain
+
+> Blockchain API Usage
+
+```javascript
+var SampleContract = function () {
+    LocalContractStorage.defineProperties(this, {
+        name: null,
+        count: null
+    });
+    LocalContractStorage.defineMapProperty(this, "allocation");
+};
+
+SampleContract.prototype = {
+    init: function (name, count, allocation) {
+      this.name = name;
+      this.count = count;
+      allocation.forEach(function (item) {
+          this.allocation.put(item.name, item.count);
+      }, this);
+      console.log('init: Blockchain.block.coinbase = ' + Blockchain.block.coinbase);
+      console.log('init: Blockchain.block.hash = ' + Blockchain.block.hash);
+      console.log('init: Blockchain.block.height = ' + Blockchain.block.height);
+      console.log('init: Blockchain.transaction.from = ' + Blockchain.transaction.from);
+      console.log('init: Blockchain.transaction.to = ' + Blockchain.transaction.to);
+      console.log('init: Blockchain.transaction.value = ' + Blockchain.transaction.value);
+      console.log('init: Blockchain.transaction.nonce = ' + Blockchain.transaction.nonce);
+      console.log('init: Blockchain.transaction.hash = ' + Blockchain.transaction.hash);
+    },
+    transfer: function (address, value) {
+      var result = Blockchain.transfer(address, value);
+      console.log("transfer result:", result);
+      Event.Trigger("transfer", {
+        Transfer: {
+          from: Blockchain.transaction.to,
+          to: address,
+          value: value
+        }
+      });
+    },
+    verifyAddress: function (address) {
+      var result = Blockchain.verifyAddress(address);
+      console.log("verifyAddress result:", result);
+    }
+};
+
+module.exports = SampleContract;
+```
+
+*Blockchain top-level API*
+
+* `Blockchain.block`
+  * current block 
+* `Blockchain.transaction`
+  * current transaction, transaction's value/gasPrice/gasLimit as BigNumber
+* `Blockchain.transfer(address, value)`
+  * transfer NAS from contract to address
+* `Blockchain.verifyAddress(address)`
+  * verify address
+
+*Blockchain.properties*
+
+* `block`: current block for contract execution
+  * `timestamp`: block timestamp
+  * `seed`: random seed
+  * `height`: block height
+* `transaction`: current transaction for contract execution
+  * `hash`: transaction hash
+  * `from`: transaction from address
+  * `to`: transaction to address
+  * `value`: transaction value, a BigNumber object for contract use
+  * `nonce`: transaction nonce
+  * `timestamp`: transaction timestamp
+  * `gasPrice`: transaction gasPrice, a BigNumber object for contract use
+  * `gasLimit`: transaction gasLimit, a BigNumber object for contract use
+* `transfer(address, value)`: transfer NAS from contract to address
+  * params:
+    * `address`: nebulas address to receive NAS
+    * `value`: transfer value, a BigNumber object. The unit is wei, only integer value is valid.
+  * return (boolean value):
+    * `true`: transfer success
+    * `false`: transfer failed   
+* `verifyAddress(address)`: verify address
+  * params:
+    * `address`: address need to check
+  * return (number value):
+    * `87`: user wallet address
+    * `88`: smart-contract address
+    * `0`: address is invalid 
+
+## LocalContractStorage
+
+> Usage
+
+```javascript
+var FirstContract = function () {
+  // Use `defineProperty` to store primitive-type values
+  LocalContractStorage.defineProperty(this, "author")
+
+  // Use `defineMapProperty` to store key-value-type values
+  LocalContractStorage.defineMapProperty(this, "dogFamily")
+}
+
+FirstContract.prototype = {
+  ...
+  init: function() {
+    this.author = Blockchain.transaction.from
+    this.dogFamily.set("dad", "Marlie")
+    this.dogFamily.set("mom", "Lucy")
+  },
+  getDad: function() {
+    return this.dogFamily.get("dad")
+  },
+  setFamilyMember: function(memberType, memberName) {
+    this.dogFamily.set(memberType, memberName)
+  },
+  ...
+}
+```
+
+> Module implementation
+
+```typescript
+interface Descriptor {
+  // serialize value to string;
+  stringify?(value: any): string;
+
+  // deserialize value from string;
+  parse?(value: string): any;
+}
+
+interface DescriptorMap {
+  [fieldName: string]: Descriptor;
+}
+
+interface ContractStorage {
+  // get and return value by key from Native Storage.
+  rawGet(key: string): string;
+  // set key and value pair to Native Storage,
+  // return 0 for success, otherwise failure.
+  rawSet(key: string, value: string): number;
+
+  // define a object property named `fieldname` to `obj` with descriptor.
+  // default descriptor is JSON.parse/JSON.stringify descriptor.
+  // return this.
+  defineProperty(obj: any, fieldName: string, descriptor?: Descriptor): any;
+
+  // define object properties to `obj` from `props`.
+  // default descriptor is JSON.parse/JSON.stringify descriptor.
+  // return this.
+  defineProperties(obj: any, props: DescriptorMap): any;
+
+  // define a StorageMap property named `fieldname` to `obj` with descriptor.
+  // default descriptor is JSON.parse/JSON.stringify descriptor.
+  // return this.
+  defineMapProperty(obj: any, fieldName: string, descriptor?: Descriptor): any;
+
+  // define StorageMap properties to `obj` from `props`.
+  // default descriptor is JSON.parse/JSON.stringify descriptor.
+  // return this.
+  defineMapProperties(obj: any, props: DescriptorMap): any;
+
+  // delete key from Native Storage.
+  // return 0 for success, otherwise failure.
+  del(key: string): number;
+
+  // get value by key from Native Storage,
+  // deserialize value by calling `descriptor.parse` and return.
+  get(key: string): any;
+
+  // set key and value pair to Native Storage,
+  // the value will be serialized to string by calling `descriptor.stringify`.
+  // return 0 for success, otherwise failure.
+  set(key: string, value: any): number;
+}
+
+interface StorageMap {
+  // delete key from Native Storage, return 0 for success, otherwise failure.
+  del(key: string): number;
+
+  // get value by key from Native Storage,
+  // deserialize value by calling `descriptor.parse` and return.
+  get(key: string): any;
+
+  // set key and value pair to Native Storage,
+  // the value will be serialized to string by calling `descriptor.stringify`.
+  // return 0 for success, otherwise failure.
+  set(key: string, value: any): number;
+}
+```
+
+The ```LocalContractStorage``` module provides a state trie based storage capability. It accepts string only key value pairs. And all data are stored to a private state trie associated with current contract address, only the contract can access them.
+
+## BigNumber
+
+```javascript
+var zero = new BigNumber(0);
+var one = new BigNumber(1);
+var two = one.plus(1);
+
+console.log("is greater than", two.gt(one))
+console.log("is greater than or equal to", two.gte(one))
+console.log("is less than", one.lt(two))
+console.log("is less than or equal to", one.lte(one))
+console.log("is equal to", one.eq(one))
+```
+
+The `BigNumber` module use the [bignumber.js](https://github.com/MikeMcl/bignumber.js)(v4.1.0), a JavaScript library for arbitrary-precision decimal and non-decimal arithmetic. The contract can use `BigNumber` directly to handle the value of the transaction and other values transfer.
+
+## Event
+
+```javascript
+  // Event.Trigger("eventName", customObject)
+
+  Event.Trigger("transfer", {
+    Transfer: {
+      from: Blockchain.transaction.to,
+      to: address,
+      value: value
+    }
+  });
+```
+
+The `Event` module records execution events in contract. The recorded events are stored in the event trie on the chain, which can be fetched by [`GetEventsByHash`](https://github.com/nebulasio/wiki/blob/master/rpc.md#geteventsbyhash)API with the execution transaction hash. All contract event topics have a `chain.contract.` prefix before the topic they set in contract.
+
+## Math.random
+
+> Math.random()
+
+```javascript
+var BankVaultContract = function () {};
+
+BankVaultContract.prototype = {
+  init: function () {},
+  game: function(subscript){
+    var arr =[1,2,3,4,5,6,7,8,9,10,11,12,13];
+
+    for(var i = 0; i < arr.length; i++) {
+      var rand = parseInt(Math.random()*arr.length);
+      var t = arr[rand];
+      arr[rand] = arr[i];
+      arr[i] = t;
+    }
+
+    return arr[parseInt(subscript)];
+  },
+};
+module.exports = BankVaultContract;
+```
+
+> Math.random.seed(myseed)
+
+```javascript
+var BankVaultContract = function () {};
+
+BankVaultContract.prototype = {
+  init: function () {},
+  game: function(subscript, myseed){
+    var arr =[1,2,3,4,5,6,7,8,9,10,11,12,13];
+  
+    for(var i = 0; i < arr.length; i++){
+      if (i == 8) {
+        // reset random seed with `myseed`
+        Math.random.seed(myseed);
+      }
+
+      var rand = parseInt(Math.random() * arr.length);
+      var t = arr[rand];
+      arr[rand] = arr[i];
+      arr[i] = t;
+    }
+
+    return arr[parseInt(subscript)];
+  },
+};
+
+module.exports = BankVaultContract;
+```
+
+* `Math.random()` returns a floating-point, pseudo-random number in the range from 0 inclusive up to but not including 1. The typical usage is:
+* `Math.random.seed(myseed)` if needed, you can use this method to reset random seed. The argument `myseed` must be a **string**.
+
+## Date 
+```javascript
+var BankVaultContract = function () {};
+
+BankVaultContract.prototype = {
+  init: function () {},
+  test: function(){
+    var d = new Date();
+    return d.toString();
+  }
+};
+
+module.exports = BankVaultContract;
+```
+
+NOTE:
+
+* Unsupported methods：`toDateString()`, `toTimeString()`, `getTimezoneOffset()`, `toLocaleXXX()`.
+* `new Date()`/`Date.now()` returns the timestamp of current block in milliseconds.
+* `getXXX` returns the result of `getUTCXXX`.
+
+## Accept
+
+```javascript
+var DepositeContent = function(JSONString) {
+  if (JSONString) {
+    var o = JSON.parse(JSONString);
+    this.balance = new BigNumber(o.balance);
+    this.address = o.address;
+  } else {
+    this.balance = new BigNumber(0);
+    this.address = "";
+  }
+};
+
+DepositeContent.prototype = {
+  toString: function () {
+    return JSON.stringify(this);
+  }
+};
+
+var BankVaultContract = function () {
+  LocalContractStorage.defineMapProperty(this, "bankVault", {
+    parse: function (JSONString) {
+      return new DepositeContent(JSONString);
+    },
+    stringify: function (o) {
+      return o.toString();
+    }
+  });
+};
+
+BankVaultContract.prototype = {
+  init: function () {},
+  save: function () {
+    var from = Blockchain.transaction.from;
+    var value = Blockchain.transaction.value;
+    value = new BigNumber(value);
+    var orig_deposit = this.bankVault.get(from);
+
+    if (orig_deposit) {
+        value = value.plus(orig_deposit.balance);
+    }
+
+    var deposit = new DepositeContent();
+    deposit.balance = new BigNumber(value);
+    deposit.address = from;
+    this.bankVault.put(from, deposit);
+  },
+
+  accept: function() {
+    this.save();
+    Event.Trigger("transfer", {
+      Transfer: {
+        from: Blockchain.transaction.from,
+        to: Blockchain.transaction.to,
+        value: Blockchain.transaction.value,
+      }
+    });
+  }
+};
+
+module.exports = BankVaultContract;
+```
+
+Send a binary transfer to a contract account. As the `to` is a smart contact address, which has declared a function `accept()` and it excutes correctly, the transfer will succeed. If the Tx is a non-binary Tx,it will be treated as a normal function.
+
+## External Contract Call
+
+<aside class="warning">
+  External Contract Call is not available yet in production.
+</aside>
+
+We provide a simple method in a smart contract to call another contract, the following example shows that how proxyKvStore provide service by using the contract kvStore.
+
+```javascript
+// proxyKvStore.js:
+
+var proxyKvStore = function() {};
+
+var contractInterface = {
+  save: function(key value) {},
+  get: function(key) {},
+}
+
+proxyKvStore.prototype = {
+  init: function() {},
+  save: function(address, key, value) {
+    var kvStore  = new Blockchain.Contract(address, contractInterface);
+    kvStore.value(20000000000000000).save(key, value);
+  },
+  saveByCall: function(address, key, value) {
+    var kvStore  = new Blockchain.Contract(address, contractInterface);
+    var args = new Array();
+    args[0] = key;
+    args[1] = value;
+    kvStore.value(20000000000000000).call('save', JSON.stringify(args));
+  },
+  get: function(address, key) {
+    var kvStore = new Blockchain.Contract(address, contractInterface);
+    return kvStore.get(key)
+  },
+}
+
+module.exports = proxyKvStore;
+```
+
+```javascript
+// kvStore.js:
+
+var item = function(JSONString) {
+  if (JSONString) {
+    var obj = JSON.parse(JSONString);
+    this.key = obj.key;
+    this.value = obj.value;
+    this.author = Blockchain.transaction.from;
+  } else {
+    this.key = "";
+    this.author = "";
+    this.value = "";
+  }
+};
+
+item.prototype = {
+  toString: function () {
+    return JSON.stringify(this);
+  }
+};
+
+var kvStore = function () {
+  LocalContractStorage.defineMapProperty(this, "repo", {
+    parse: function (text) {
+      return new item(text);
+    },
+    stringify: function (o) {
+      return o.toString();
+    }
+  });
+};
+
+kvStore.prototype = {
+  init: function () {
+    // todo
+  },
+  save: function (key, value) {
+    key = key.trim();
+    value = value.trim();
+    if (key === "" || value === ""){
+      throw new Error("empty key / value");
+    }
+    if (value.length > 128 || key.length > 128){
+      throw new Error("key / value exceed limit length")
+    }
+
+    var from = Blockchain.transaction.from;
+    var item = this.repo.get(key);
+
+    if (item){
+      throw new Error("value has been taken");
+    }
+
+    item = new item();
+    item.author = from;
+    item.key = key;
+    item.value = value;
+    this.repo.put(key, item);
+  },
+
+    get: function (key) {
+        key = key.trim();
+        if ( key === "" ) {
+            throw new Error("empty key")
+        }
+        return this.repo.get(key);
+    }, 
+
+    throwErr: function() {
+        throw("err for test");
+    }
+};
+
+module.exports = kvStore;
+```
+
+> In the example, to use KvStore, we first should define an interface like this:
+
+```javascript
+var contractInterface = {
+    save: function(key, value) {
+    },
+    get: function(key) {
+    },
+}
+```
+
+> Then, create a contract object with the interface and the address of the contract you want to call:
+
+```javascript
+var kvStore  = new Blockchain.Contract(address, contractInterface);
+```
+
+> After that, we can call function in KvStore.js thought this object:
+```javascript
+kvStore.value(2000000000000000000).save(key, value);
+// or kvStore.save(key, value);
+```
+
+> as well as this way, keep the style of calling a function by sendRawTransaction RPC:
+
+```javascript
+kvStore.value(2000000000000000000).call('save', JSON.stringify(args));
+```
+
+> the 'value' function decides how much nas will be transfered to callee contract. It is not necessary， and the default value is 0.
+> It should be noted that in the execution environment of the callee contract, Blockchain.from returns the address of the caller contract, and Blockchain.value is determined by the parameter of the 'value' function executed by the caller contract.
