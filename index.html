@@ -245,27 +245,52 @@
                   <li>
                     <a href="#deploy-to-production" class="toc-h2 toc-link" data-title="deploy-to-production">Deploy to Production</a>
                   </li>
+                  <li>
+                    <a href="#next-steps" class="toc-h2 toc-link" data-title="next-steps">Next steps</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#api" class="toc-h1 toc-link" data-title="api">API</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#blockchain" class="toc-h2 toc-link" data-title="blockchain">Blockchain</a>
+                  </li>
+                  <li>
+                    <a href="#localcontractstorage" class="toc-h2 toc-link" data-title="localcontractstorage">LocalContractStorage</a>
+                  </li>
+                  <li>
+                    <a href="#bignumber" class="toc-h2 toc-link" data-title="bignumber">BigNumber</a>
+                  </li>
+                  <li>
+                    <a href="#event" class="toc-h2 toc-link" data-title="event">Event</a>
+                  </li>
+                  <li>
+                    <a href="#math-random" class="toc-h2 toc-link" data-title="math-random">Math.random</a>
+                  </li>
+                  <li>
+                    <a href="#date" class="toc-h2 toc-link" data-title="date">Date</a>
+                  </li>
+                  <li>
+                    <a href="#accept" class="toc-h2 toc-link" data-title="accept">Accept</a>
+                  </li>
+                  <li>
+                    <a href="#external-contract-call" class="toc-h2 toc-link" data-title="external-contract-call">External Contract Call</a>
+                  </li>
               </ul>
           </li>
       </div>
         <ul class="toc-footer">
-            <li><a href='http://soulchain.org'>Soulchain</a></li>
+            <li><a href='http://soulchain.org'>Soulchain.org</a></li>
         </ul>
     </div>
     <div class="page-wrapper">
       <div class="dark-box"></div>
       <div class="content">
         <h1 id='introduction'>Introduction</h1>
-<p>Welcome to the Nebulas Guide! You can use this document to kickstart your project in Nebulas. This guide is authored by <a href="https://howonsong.com/">Howon</a>.</p>
-
-<p>The only prerequisites for this guide are the following:</p>
-
-<ul>
-<li>JavaScript</li>
-<li>React</li>
-</ul>
+<p>This is Nebulas Guide. Use this guide to get ahead on blockchain programming on Nebulas. This guide includes both a step-by-step tutorial to build a dapp from scratch and deploy it to production and documentation for the most frequently used properties on Nebulas. To follow this guide, you only need to know JavaScript and <a href="https://reactjs.org/">React</a>.</p>
 <h1 id='quickstart'>Quickstart</h1>
-<p>In Quickstart, we will deploy a simple React app to Nebulas.</p>
+<p>In Quickstart, we will build a dapp from scratch and deploy it to production. In this section, we will build a simple React app that interacts with a smart contract on Nebulas.</p>
 <h2 id='create-react-app'>Create React app</h2>
 <blockquote>
 <p>Create a react app:</p>
@@ -299,11 +324,11 @@
     <span class="kr">const</span> <span class="nx">dogs</span> <span class="o">=</span> <span class="p">[</span>
       <span class="p">{</span>
         <span class="na">name</span><span class="p">:</span> <span class="s2">"Dog1"</span><span class="p">,</span>
-        <span class="na">url</span><span class="p">:</span> <span class="s2">"/dog1.jpg"</span>
+        <span class="na">url</span><span class="p">:</span> <span class="s2">"https://woniesong92.github.io/nebulasguide/images/dog1.jpg"</span>
       <span class="p">},</span>
       <span class="p">{</span>
         <span class="na">name</span><span class="p">:</span> <span class="s2">"Dog2"</span><span class="p">,</span>
-        <span class="na">url</span><span class="p">:</span> <span class="s2">"/dog2.jpg"</span>
+        <span class="na">url</span><span class="p">:</span> <span class="s2">"https://woniesong92.github.io/nebulasguide/images/dog2.jpg"</span>
       <span class="p">},</span>
     <span class="p">]</span>
 
@@ -366,11 +391,11 @@ We are <em>mocking</em> data here with a couple of dog objects. Let&#39;s replac
     <span class="kd">var</span> <span class="nx">dogs</span> <span class="o">=</span> <span class="p">[</span>
       <span class="p">{</span>
         <span class="na">name</span><span class="p">:</span> <span class="s2">"Dog1"</span><span class="p">,</span>
-        <span class="na">url</span><span class="p">:</span> <span class="s2">"dog1.jpg"</span>
+        <span class="na">url</span><span class="p">:</span> <span class="s2">"https://woniesong92.github.io/nebulasguide/images/dog1.jpg"</span>
       <span class="p">},</span>
       <span class="p">{</span>
         <span class="na">name</span><span class="p">:</span> <span class="s2">"Dog2"</span><span class="p">,</span>
-        <span class="na">url</span><span class="p">:</span> <span class="s2">"dog2.jpg"</span>
+        <span class="na">url</span><span class="p">:</span> <span class="s2">"https://woniesong92.github.io/nebulasguide/images/dog2.jpg"</span>
       <span class="p">},</span>
     <span class="p">]</span>
 
@@ -537,7 +562,7 @@ Unlike Ethereum, you do not have to learn a new langauge (e.g. Solidity).</p>
   <span class="nx">onAddDog</span><span class="p">()</span> <span class="p">{</span>
     <span class="kr">const</span> <span class="nx">newDog</span> <span class="o">=</span> <span class="p">{</span>
       <span class="na">name</span><span class="p">:</span> <span class="s2">"myDog"</span><span class="p">,</span>
-      <span class="na">url</span><span class="p">:</span> <span class="s2">"someUrl.jpg"</span>
+      <span class="na">url</span><span class="p">:</span> <span class="s2">"https://woniesong92.github.io/nebulasguide/images/dog3.jpg"</span>
     <span class="p">}</span>
     <span class="kr">const</span> <span class="nx">nebPay</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">NebPay</span><span class="p">()</span>
     <span class="kr">const</span> <span class="nx">price</span> <span class="o">=</span> <span class="mi">0</span>
@@ -636,6 +661,526 @@ and check if the sender is the author in <code>addDog()</code></p>
 <p><img src="images/web-wallet2.jpg" alt="Web-wallet2" /></p>
 
 <p>Congratulations! Now you have officially built and deployed a Dapp to the world.</p>
+<h2 id='next-steps'>Next steps</h2>
+<p>Check out the following places to learn about Nebulas further.</p>
+
+<ul>
+<li><a href="#api">API document</a></li>
+<li><a href="https://nebulas.io/resources.html">Nebulas Resources</a></li>
+<li><a href="https://www.reddit.com/r/nebulas">Nebulas Subreddit</a></li>
+<li><a href="https://medium.com/@nebulasio">Nebulas Medium</a></li>
+</ul>
+<h1 id='api'>API</h1><h2 id='blockchain'>Blockchain</h2>
+<blockquote>
+<p>Blockchain API Usage</p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code><span class="kd">var</span> <span class="nx">SampleContract</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="nx">LocalContractStorage</span><span class="p">.</span><span class="nx">defineProperties</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="p">{</span>
+        <span class="na">name</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+        <span class="na">count</span><span class="p">:</span> <span class="kc">null</span>
+    <span class="p">});</span>
+    <span class="nx">LocalContractStorage</span><span class="p">.</span><span class="nx">defineMapProperty</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="s2">"allocation"</span><span class="p">);</span>
+<span class="p">};</span>
+
+<span class="nx">SampleContract</span><span class="p">.</span><span class="nx">prototype</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="na">init</span><span class="p">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">name</span><span class="p">,</span> <span class="nx">count</span><span class="p">,</span> <span class="nx">allocation</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="nx">name</span><span class="p">;</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">count</span> <span class="o">=</span> <span class="nx">count</span><span class="p">;</span>
+      <span class="nx">allocation</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">item</span><span class="p">)</span> <span class="p">{</span>
+          <span class="k">this</span><span class="p">.</span><span class="nx">allocation</span><span class="p">.</span><span class="nx">put</span><span class="p">(</span><span class="nx">item</span><span class="p">.</span><span class="nx">name</span><span class="p">,</span> <span class="nx">item</span><span class="p">.</span><span class="nx">count</span><span class="p">);</span>
+      <span class="p">},</span> <span class="k">this</span><span class="p">);</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'init: Blockchain.block.coinbase = '</span> <span class="o">+</span> <span class="nx">Blockchain</span><span class="p">.</span><span class="nx">block</span><span class="p">.</span><span class="nx">coinbase</span><span class="p">);</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'init: Blockchain.block.hash = '</span> <span class="o">+</span> <span class="nx">Blockchain</span><span class="p">.</span><span class="nx">block</span><span class="p">.</span><span class="nx">hash</span><span class="p">);</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'init: Blockchain.block.height = '</span> <span class="o">+</span> <span class="nx">Blockchain</span><span class="p">.</span><span class="nx">block</span><span class="p">.</span><span class="nx">height</span><span class="p">);</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'init: Blockchain.transaction.from = '</span> <span class="o">+</span> <span class="nx">Blockchain</span><span class="p">.</span><span class="nx">transaction</span><span class="p">.</span><span class="nx">from</span><span class="p">);</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'init: Blockchain.transaction.to = '</span> <span class="o">+</span> <span class="nx">Blockchain</span><span class="p">.</span><span class="nx">transaction</span><span class="p">.</span><span class="nx">to</span><span class="p">);</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'init: Blockchain.transaction.value = '</span> <span class="o">+</span> <span class="nx">Blockchain</span><span class="p">.</span><span class="nx">transaction</span><span class="p">.</span><span class="nx">value</span><span class="p">);</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'init: Blockchain.transaction.nonce = '</span> <span class="o">+</span> <span class="nx">Blockchain</span><span class="p">.</span><span class="nx">transaction</span><span class="p">.</span><span class="nx">nonce</span><span class="p">);</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'init: Blockchain.transaction.hash = '</span> <span class="o">+</span> <span class="nx">Blockchain</span><span class="p">.</span><span class="nx">transaction</span><span class="p">.</span><span class="nx">hash</span><span class="p">);</span>
+    <span class="p">},</span>
+    <span class="na">transfer</span><span class="p">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">address</span><span class="p">,</span> <span class="nx">value</span><span class="p">)</span> <span class="p">{</span>
+      <span class="kd">var</span> <span class="nx">result</span> <span class="o">=</span> <span class="nx">Blockchain</span><span class="p">.</span><span class="nx">transfer</span><span class="p">(</span><span class="nx">address</span><span class="p">,</span> <span class="nx">value</span><span class="p">);</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"transfer result:"</span><span class="p">,</span> <span class="nx">result</span><span class="p">);</span>
+      <span class="nx">Event</span><span class="p">.</span><span class="nx">Trigger</span><span class="p">(</span><span class="s2">"transfer"</span><span class="p">,</span> <span class="p">{</span>
+        <span class="na">Transfer</span><span class="p">:</span> <span class="p">{</span>
+          <span class="na">from</span><span class="p">:</span> <span class="nx">Blockchain</span><span class="p">.</span><span class="nx">transaction</span><span class="p">.</span><span class="nx">to</span><span class="p">,</span>
+          <span class="na">to</span><span class="p">:</span> <span class="nx">address</span><span class="p">,</span>
+          <span class="na">value</span><span class="p">:</span> <span class="nx">value</span>
+        <span class="p">}</span>
+      <span class="p">});</span>
+    <span class="p">},</span>
+    <span class="na">verifyAddress</span><span class="p">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">address</span><span class="p">)</span> <span class="p">{</span>
+      <span class="kd">var</span> <span class="nx">result</span> <span class="o">=</span> <span class="nx">Blockchain</span><span class="p">.</span><span class="nx">verifyAddress</span><span class="p">(</span><span class="nx">address</span><span class="p">);</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"verifyAddress result:"</span><span class="p">,</span> <span class="nx">result</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="nx">SampleContract</span><span class="p">;</span>
+</code></pre>
+<p><em>Blockchain top-level API</em></p>
+
+<ul>
+<li><code>Blockchain.block</code>
+
+<ul>
+<li>current block </li>
+</ul></li>
+<li><code>Blockchain.transaction</code>
+
+<ul>
+<li>current transaction, transaction&#39;s value/gasPrice/gasLimit as BigNumber</li>
+</ul></li>
+<li><code>Blockchain.transfer(address, value)</code>
+
+<ul>
+<li>transfer NAS from contract to address</li>
+</ul></li>
+<li><code>Blockchain.verifyAddress(address)</code>
+
+<ul>
+<li>verify address</li>
+</ul></li>
+</ul>
+
+<p><em>Blockchain.properties</em></p>
+
+<ul>
+<li><code>block</code>: current block for contract execution
+
+<ul>
+<li><code>timestamp</code>: block timestamp</li>
+<li><code>seed</code>: random seed</li>
+<li><code>height</code>: block height</li>
+</ul></li>
+<li><code>transaction</code>: current transaction for contract execution
+
+<ul>
+<li><code>hash</code>: transaction hash</li>
+<li><code>from</code>: transaction from address</li>
+<li><code>to</code>: transaction to address</li>
+<li><code>value</code>: transaction value, a BigNumber object for contract use</li>
+<li><code>nonce</code>: transaction nonce</li>
+<li><code>timestamp</code>: transaction timestamp</li>
+<li><code>gasPrice</code>: transaction gasPrice, a BigNumber object for contract use</li>
+<li><code>gasLimit</code>: transaction gasLimit, a BigNumber object for contract use</li>
+</ul></li>
+<li><code>transfer(address, value)</code>: transfer NAS from contract to address
+
+<ul>
+<li>params:</li>
+<li><code>address</code>: nebulas address to receive NAS</li>
+<li><code>value</code>: transfer value, a BigNumber object. The unit is wei, only integer value is valid.</li>
+<li>return (boolean value):</li>
+<li><code>true</code>: transfer success</li>
+<li><code>false</code>: transfer failed<br></li>
+</ul></li>
+<li><code>verifyAddress(address)</code>: verify address
+
+<ul>
+<li>params:</li>
+<li><code>address</code>: address need to check</li>
+<li>return (number value):</li>
+<li><code>87</code>: user wallet address</li>
+<li><code>88</code>: smart-contract address</li>
+<li><code>0</code>: address is invalid </li>
+</ul></li>
+</ul>
+<h2 id='localcontractstorage'>LocalContractStorage</h2>
+<blockquote>
+<p>Usage</p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code><span class="kd">var</span> <span class="nx">FirstContract</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+  <span class="c1">// Use `defineProperty` to store primitive-type values</span>
+  <span class="nx">LocalContractStorage</span><span class="p">.</span><span class="nx">defineProperty</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="s2">"author"</span><span class="p">)</span>
+
+  <span class="c1">// Use `defineMapProperty` to store key-value-type values</span>
+  <span class="nx">LocalContractStorage</span><span class="p">.</span><span class="nx">defineMapProperty</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="s2">"dogFamily"</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="nx">FirstContract</span><span class="p">.</span><span class="nx">prototype</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="p">...</span>
+  <span class="na">init</span><span class="p">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">author</span> <span class="o">=</span> <span class="nx">Blockchain</span><span class="p">.</span><span class="nx">transaction</span><span class="p">.</span><span class="nx">from</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">dogFamily</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s2">"dad"</span><span class="p">,</span> <span class="s2">"Marlie"</span><span class="p">)</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">dogFamily</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s2">"mom"</span><span class="p">,</span> <span class="s2">"Lucy"</span><span class="p">)</span>
+  <span class="p">},</span>
+  <span class="na">getDad</span><span class="p">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">dogFamily</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s2">"dad"</span><span class="p">)</span>
+  <span class="p">},</span>
+  <span class="na">setFamilyMember</span><span class="p">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">memberType</span><span class="p">,</span> <span class="nx">memberName</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">dogFamily</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="nx">memberType</span><span class="p">,</span> <span class="nx">memberName</span><span class="p">)</span>
+  <span class="p">},</span>
+  <span class="p">...</span>
+<span class="p">}</span>
+</code></pre>
+<blockquote>
+<p>Module implementation</p>
+</blockquote>
+<pre class="highlight typescript tab-typescript"><code><span class="kr">interface</span> <span class="nx">Descriptor</span> <span class="p">{</span>
+  <span class="c1">// serialize value to string;</span>
+  <span class="nx">stringify</span><span class="p">?(</span><span class="nx">value</span><span class="p">:</span> <span class="kr">any</span><span class="p">):</span> <span class="kr">string</span><span class="p">;</span>
+
+  <span class="c1">// deserialize value from string;</span>
+  <span class="nx">parse</span><span class="p">?(</span><span class="nx">value</span><span class="p">:</span> <span class="kr">string</span><span class="p">):</span> <span class="kr">any</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kr">interface</span> <span class="nx">DescriptorMap</span> <span class="p">{</span>
+  <span class="p">[</span><span class="nx">fieldName</span><span class="p">:</span> <span class="kr">string</span><span class="p">]:</span> <span class="nx">Descriptor</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kr">interface</span> <span class="nx">ContractStorage</span> <span class="p">{</span>
+  <span class="c1">// get and return value by key from Native Storage.</span>
+  <span class="nx">rawGet</span><span class="p">(</span><span class="nx">key</span><span class="p">:</span> <span class="kr">string</span><span class="p">):</span> <span class="kr">string</span><span class="p">;</span>
+  <span class="c1">// set key and value pair to Native Storage,</span>
+  <span class="c1">// return 0 for success, otherwise failure.</span>
+  <span class="nx">rawSet</span><span class="p">(</span><span class="nx">key</span><span class="p">:</span> <span class="kr">string</span><span class="p">,</span> <span class="nx">value</span><span class="p">:</span> <span class="kr">string</span><span class="p">):</span> <span class="kr">number</span><span class="p">;</span>
+
+  <span class="c1">// define a object property named `fieldname` to `obj` with descriptor.</span>
+  <span class="c1">// default descriptor is JSON.parse/JSON.stringify descriptor.</span>
+  <span class="c1">// return this.</span>
+  <span class="nx">defineProperty</span><span class="p">(</span><span class="nx">obj</span><span class="p">:</span> <span class="kr">any</span><span class="p">,</span> <span class="nx">fieldName</span><span class="p">:</span> <span class="kr">string</span><span class="p">,</span> <span class="nx">descriptor</span><span class="p">?:</span> <span class="nx">Descriptor</span><span class="p">):</span> <span class="kr">any</span><span class="p">;</span>
+
+  <span class="c1">// define object properties to `obj` from `props`.</span>
+  <span class="c1">// default descriptor is JSON.parse/JSON.stringify descriptor.</span>
+  <span class="c1">// return this.</span>
+  <span class="nx">defineProperties</span><span class="p">(</span><span class="nx">obj</span><span class="p">:</span> <span class="kr">any</span><span class="p">,</span> <span class="nx">props</span><span class="p">:</span> <span class="nx">DescriptorMap</span><span class="p">):</span> <span class="kr">any</span><span class="p">;</span>
+
+  <span class="c1">// define a StorageMap property named `fieldname` to `obj` with descriptor.</span>
+  <span class="c1">// default descriptor is JSON.parse/JSON.stringify descriptor.</span>
+  <span class="c1">// return this.</span>
+  <span class="nx">defineMapProperty</span><span class="p">(</span><span class="nx">obj</span><span class="p">:</span> <span class="kr">any</span><span class="p">,</span> <span class="nx">fieldName</span><span class="p">:</span> <span class="kr">string</span><span class="p">,</span> <span class="nx">descriptor</span><span class="p">?:</span> <span class="nx">Descriptor</span><span class="p">):</span> <span class="kr">any</span><span class="p">;</span>
+
+  <span class="c1">// define StorageMap properties to `obj` from `props`.</span>
+  <span class="c1">// default descriptor is JSON.parse/JSON.stringify descriptor.</span>
+  <span class="c1">// return this.</span>
+  <span class="nx">defineMapProperties</span><span class="p">(</span><span class="nx">obj</span><span class="p">:</span> <span class="kr">any</span><span class="p">,</span> <span class="nx">props</span><span class="p">:</span> <span class="nx">DescriptorMap</span><span class="p">):</span> <span class="kr">any</span><span class="p">;</span>
+
+  <span class="c1">// delete key from Native Storage.</span>
+  <span class="c1">// return 0 for success, otherwise failure.</span>
+  <span class="nx">del</span><span class="p">(</span><span class="nx">key</span><span class="p">:</span> <span class="kr">string</span><span class="p">):</span> <span class="kr">number</span><span class="p">;</span>
+
+  <span class="c1">// get value by key from Native Storage,</span>
+  <span class="c1">// deserialize value by calling `descriptor.parse` and return.</span>
+  <span class="nx">get</span><span class="p">(</span><span class="nx">key</span><span class="p">:</span> <span class="kr">string</span><span class="p">):</span> <span class="kr">any</span><span class="p">;</span>
+
+  <span class="c1">// set key and value pair to Native Storage,</span>
+  <span class="c1">// the value will be serialized to string by calling `descriptor.stringify`.</span>
+  <span class="c1">// return 0 for success, otherwise failure.</span>
+  <span class="nx">set</span><span class="p">(</span><span class="nx">key</span><span class="p">:</span> <span class="kr">string</span><span class="p">,</span> <span class="nx">value</span><span class="p">:</span> <span class="kr">any</span><span class="p">):</span> <span class="kr">number</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kr">interface</span> <span class="nx">StorageMap</span> <span class="p">{</span>
+  <span class="c1">// delete key from Native Storage, return 0 for success, otherwise failure.</span>
+  <span class="nx">del</span><span class="p">(</span><span class="nx">key</span><span class="p">:</span> <span class="kr">string</span><span class="p">):</span> <span class="kr">number</span><span class="p">;</span>
+
+  <span class="c1">// get value by key from Native Storage,</span>
+  <span class="c1">// deserialize value by calling `descriptor.parse` and return.</span>
+  <span class="nx">get</span><span class="p">(</span><span class="nx">key</span><span class="p">:</span> <span class="kr">string</span><span class="p">):</span> <span class="kr">any</span><span class="p">;</span>
+
+  <span class="c1">// set key and value pair to Native Storage,</span>
+  <span class="c1">// the value will be serialized to string by calling `descriptor.stringify`.</span>
+  <span class="c1">// return 0 for success, otherwise failure.</span>
+  <span class="nx">set</span><span class="p">(</span><span class="nx">key</span><span class="p">:</span> <span class="kr">string</span><span class="p">,</span> <span class="nx">value</span><span class="p">:</span> <span class="kr">any</span><span class="p">):</span> <span class="kr">number</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre>
+<p>The <code>LocalContractStorage</code> module provides a state trie based storage capability. It accepts string only key value pairs. And all data are stored to a private state trie associated with current contract address, only the contract can access them.</p>
+<h2 id='bignumber'>BigNumber</h2><pre class="highlight javascript tab-javascript"><code><span class="kd">var</span> <span class="nx">zero</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">BigNumber</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">one</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">BigNumber</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">two</span> <span class="o">=</span> <span class="nx">one</span><span class="p">.</span><span class="nx">plus</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"is greater than"</span><span class="p">,</span> <span class="nx">two</span><span class="p">.</span><span class="nx">gt</span><span class="p">(</span><span class="nx">one</span><span class="p">))</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"is greater than or equal to"</span><span class="p">,</span> <span class="nx">two</span><span class="p">.</span><span class="nx">gte</span><span class="p">(</span><span class="nx">one</span><span class="p">))</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"is less than"</span><span class="p">,</span> <span class="nx">one</span><span class="p">.</span><span class="nx">lt</span><span class="p">(</span><span class="nx">two</span><span class="p">))</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"is less than or equal to"</span><span class="p">,</span> <span class="nx">one</span><span class="p">.</span><span class="nx">lte</span><span class="p">(</span><span class="nx">one</span><span class="p">))</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"is equal to"</span><span class="p">,</span> <span class="nx">one</span><span class="p">.</span><span class="nx">eq</span><span class="p">(</span><span class="nx">one</span><span class="p">))</span>
+</code></pre>
+<p>The <code>BigNumber</code> module use the <a href="https://github.com/MikeMcl/bignumber.js">bignumber.js</a>(v4.1.0), a JavaScript library for arbitrary-precision decimal and non-decimal arithmetic. The contract can use <code>BigNumber</code> directly to handle the value of the transaction and other values transfer.</p>
+<h2 id='event'>Event</h2><pre class="highlight javascript tab-javascript"><code>  <span class="c1">// Event.Trigger("eventName", customObject)</span>
+
+  <span class="nx">Event</span><span class="p">.</span><span class="nx">Trigger</span><span class="p">(</span><span class="s2">"transfer"</span><span class="p">,</span> <span class="p">{</span>
+    <span class="na">Transfer</span><span class="p">:</span> <span class="p">{</span>
+      <span class="na">from</span><span class="p">:</span> <span class="nx">Blockchain</span><span class="p">.</span><span class="nx">transaction</span><span class="p">.</span><span class="nx">to</span><span class="p">,</span>
+      <span class="na">to</span><span class="p">:</span> <span class="nx">address</span><span class="p">,</span>
+      <span class="na">value</span><span class="p">:</span> <span class="nx">value</span>
+    <span class="p">}</span>
+  <span class="p">});</span>
+</code></pre>
+<p>The <code>Event</code> module records execution events in contract. The recorded events are stored in the event trie on the chain, which can be fetched by <a href="https://github.com/nebulasio/wiki/blob/master/rpc.md#geteventsbyhash"><code>GetEventsByHash</code></a>API with the execution transaction hash. All contract event topics have a <code>chain.contract.</code> prefix before the topic they set in contract.</p>
+<h2 id='math-random'>Math.random</h2>
+<blockquote>
+<p>Math.random()</p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code><span class="kd">var</span> <span class="nx">BankVaultContract</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{};</span>
+
+<span class="nx">BankVaultContract</span><span class="p">.</span><span class="nx">prototype</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">init</span><span class="p">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{},</span>
+  <span class="na">game</span><span class="p">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">subscript</span><span class="p">){</span>
+    <span class="kd">var</span> <span class="nx">arr</span> <span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mi">12</span><span class="p">,</span><span class="mi">13</span><span class="p">];</span>
+
+    <span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">arr</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+      <span class="kd">var</span> <span class="nx">rand</span> <span class="o">=</span> <span class="nb">parseInt</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">()</span><span class="o">*</span><span class="nx">arr</span><span class="p">.</span><span class="nx">length</span><span class="p">);</span>
+      <span class="kd">var</span> <span class="nx">t</span> <span class="o">=</span> <span class="nx">arr</span><span class="p">[</span><span class="nx">rand</span><span class="p">];</span>
+      <span class="nx">arr</span><span class="p">[</span><span class="nx">rand</span><span class="p">]</span> <span class="o">=</span> <span class="nx">arr</span><span class="p">[</span><span class="nx">i</span><span class="p">];</span>
+      <span class="nx">arr</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="o">=</span> <span class="nx">t</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="nx">arr</span><span class="p">[</span><span class="nb">parseInt</span><span class="p">(</span><span class="nx">subscript</span><span class="p">)];</span>
+  <span class="p">},</span>
+<span class="p">};</span>
+<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="nx">BankVaultContract</span><span class="p">;</span>
+</code></pre>
+<blockquote>
+<p>Math.random.seed(myseed)</p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code><span class="kd">var</span> <span class="nx">BankVaultContract</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{};</span>
+
+<span class="nx">BankVaultContract</span><span class="p">.</span><span class="nx">prototype</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">init</span><span class="p">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{},</span>
+  <span class="na">game</span><span class="p">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">subscript</span><span class="p">,</span> <span class="nx">myseed</span><span class="p">){</span>
+    <span class="kd">var</span> <span class="nx">arr</span> <span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mi">12</span><span class="p">,</span><span class="mi">13</span><span class="p">];</span>
+
+    <span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">arr</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">){</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">i</span> <span class="o">==</span> <span class="mi">8</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// reset random seed with `myseed`</span>
+        <span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">.</span><span class="nx">seed</span><span class="p">(</span><span class="nx">myseed</span><span class="p">);</span>
+      <span class="p">}</span>
+
+      <span class="kd">var</span> <span class="nx">rand</span> <span class="o">=</span> <span class="nb">parseInt</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">()</span> <span class="o">*</span> <span class="nx">arr</span><span class="p">.</span><span class="nx">length</span><span class="p">);</span>
+      <span class="kd">var</span> <span class="nx">t</span> <span class="o">=</span> <span class="nx">arr</span><span class="p">[</span><span class="nx">rand</span><span class="p">];</span>
+      <span class="nx">arr</span><span class="p">[</span><span class="nx">rand</span><span class="p">]</span> <span class="o">=</span> <span class="nx">arr</span><span class="p">[</span><span class="nx">i</span><span class="p">];</span>
+      <span class="nx">arr</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="o">=</span> <span class="nx">t</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="nx">arr</span><span class="p">[</span><span class="nb">parseInt</span><span class="p">(</span><span class="nx">subscript</span><span class="p">)];</span>
+  <span class="p">},</span>
+<span class="p">};</span>
+
+<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="nx">BankVaultContract</span><span class="p">;</span>
+</code></pre>
+<ul>
+<li><code>Math.random()</code> returns a floating-point, pseudo-random number in the range from 0 inclusive up to but not including 1. The typical usage is:</li>
+<li><code>Math.random.seed(myseed)</code> if needed, you can use this method to reset random seed. The argument <code>myseed</code> must be a <strong>string</strong>.</li>
+</ul>
+<h2 id='date'>Date</h2><pre class="highlight javascript tab-javascript"><code><span class="kd">var</span> <span class="nx">BankVaultContract</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{};</span>
+
+<span class="nx">BankVaultContract</span><span class="p">.</span><span class="nx">prototype</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">init</span><span class="p">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{},</span>
+  <span class="na">test</span><span class="p">:</span> <span class="kd">function</span><span class="p">(){</span>
+    <span class="kd">var</span> <span class="nx">d</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">();</span>
+    <span class="k">return</span> <span class="nx">d</span><span class="p">.</span><span class="nx">toString</span><span class="p">();</span>
+  <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="nx">BankVaultContract</span><span class="p">;</span>
+</code></pre>
+<p>NOTE:</p>
+
+<ul>
+<li>Unsupported methods：<code>toDateString()</code>, <code>toTimeString()</code>, <code>getTimezoneOffset()</code>, <code>toLocaleXXX()</code>.</li>
+<li><code>new Date()</code>/<code>Date.now()</code> returns the timestamp of current block in milliseconds.</li>
+<li><code>getXXX</code> returns the result of <code>getUTCXXX</code>.</li>
+</ul>
+<h2 id='accept'>Accept</h2><pre class="highlight javascript tab-javascript"><code><span class="kd">var</span> <span class="nx">DepositeContent</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">JSONString</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">JSONString</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">o</span> <span class="o">=</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">JSONString</span><span class="p">);</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">balance</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">BigNumber</span><span class="p">(</span><span class="nx">o</span><span class="p">.</span><span class="nx">balance</span><span class="p">);</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">address</span> <span class="o">=</span> <span class="nx">o</span><span class="p">.</span><span class="nx">address</span><span class="p">;</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">balance</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">BigNumber</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">address</span> <span class="o">=</span> <span class="s2">""</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="nx">DepositeContent</span><span class="p">.</span><span class="nx">prototype</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">toString</span><span class="p">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="kd">var</span> <span class="nx">BankVaultContract</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+  <span class="nx">LocalContractStorage</span><span class="p">.</span><span class="nx">defineMapProperty</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="s2">"bankVault"</span><span class="p">,</span> <span class="p">{</span>
+    <span class="na">parse</span><span class="p">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">JSONString</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="k">new</span> <span class="nx">DepositeContent</span><span class="p">(</span><span class="nx">JSONString</span><span class="p">);</span>
+    <span class="p">},</span>
+    <span class="na">stringify</span><span class="p">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">o</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="nx">o</span><span class="p">.</span><span class="nx">toString</span><span class="p">();</span>
+    <span class="p">}</span>
+  <span class="p">});</span>
+<span class="p">};</span>
+
+<span class="nx">BankVaultContract</span><span class="p">.</span><span class="nx">prototype</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">init</span><span class="p">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{},</span>
+  <span class="na">save</span><span class="p">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">from</span> <span class="o">=</span> <span class="nx">Blockchain</span><span class="p">.</span><span class="nx">transaction</span><span class="p">.</span><span class="nx">from</span><span class="p">;</span>
+    <span class="kd">var</span> <span class="nx">value</span> <span class="o">=</span> <span class="nx">Blockchain</span><span class="p">.</span><span class="nx">transaction</span><span class="p">.</span><span class="nx">value</span><span class="p">;</span>
+    <span class="nx">value</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">BigNumber</span><span class="p">(</span><span class="nx">value</span><span class="p">);</span>
+    <span class="kd">var</span> <span class="nx">orig_deposit</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">bankVault</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="nx">from</span><span class="p">);</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="nx">orig_deposit</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">value</span> <span class="o">=</span> <span class="nx">value</span><span class="p">.</span><span class="nx">plus</span><span class="p">(</span><span class="nx">orig_deposit</span><span class="p">.</span><span class="nx">balance</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="kd">var</span> <span class="nx">deposit</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">DepositeContent</span><span class="p">();</span>
+    <span class="nx">deposit</span><span class="p">.</span><span class="nx">balance</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">BigNumber</span><span class="p">(</span><span class="nx">value</span><span class="p">);</span>
+    <span class="nx">deposit</span><span class="p">.</span><span class="nx">address</span> <span class="o">=</span> <span class="nx">from</span><span class="p">;</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">bankVault</span><span class="p">.</span><span class="nx">put</span><span class="p">(</span><span class="nx">from</span><span class="p">,</span> <span class="nx">deposit</span><span class="p">);</span>
+  <span class="p">},</span>
+
+  <span class="na">accept</span><span class="p">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">save</span><span class="p">();</span>
+    <span class="nx">Event</span><span class="p">.</span><span class="nx">Trigger</span><span class="p">(</span><span class="s2">"transfer"</span><span class="p">,</span> <span class="p">{</span>
+      <span class="na">Transfer</span><span class="p">:</span> <span class="p">{</span>
+        <span class="na">from</span><span class="p">:</span> <span class="nx">Blockchain</span><span class="p">.</span><span class="nx">transaction</span><span class="p">.</span><span class="nx">from</span><span class="p">,</span>
+        <span class="na">to</span><span class="p">:</span> <span class="nx">Blockchain</span><span class="p">.</span><span class="nx">transaction</span><span class="p">.</span><span class="nx">to</span><span class="p">,</span>
+        <span class="na">value</span><span class="p">:</span> <span class="nx">Blockchain</span><span class="p">.</span><span class="nx">transaction</span><span class="p">.</span><span class="nx">value</span><span class="p">,</span>
+      <span class="p">}</span>
+    <span class="p">});</span>
+  <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="nx">BankVaultContract</span><span class="p">;</span>
+</code></pre>
+<p>Send a binary transfer to a contract account. As the <code>to</code> is a smart contact address, which has declared a function <code>accept()</code> and it excutes correctly, the transfer will succeed. If the Tx is a non-binary Tx,it will be treated as a normal function.</p>
+<h2 id='external-contract-call'>External Contract Call</h2>
+<aside class="warning">
+  External Contract Call is not available yet in production.
+</aside>
+
+<p>We provide a simple method in a smart contract to call another contract, the following example shows that how proxyKvStore provide service by using the contract kvStore.</p>
+<pre class="highlight javascript tab-javascript"><code><span class="c1">// proxyKvStore.js:</span>
+
+<span class="kd">var</span> <span class="nx">proxyKvStore</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{};</span>
+
+<span class="kd">var</span> <span class="nx">contractInterface</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">save</span><span class="p">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">key</span> <span class="nx">value</span><span class="p">)</span> <span class="p">{},</span>
+  <span class="na">get</span><span class="p">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">key</span><span class="p">)</span> <span class="p">{},</span>
+<span class="p">}</span>
+
+<span class="nx">proxyKvStore</span><span class="p">.</span><span class="nx">prototype</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">init</span><span class="p">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{},</span>
+  <span class="na">save</span><span class="p">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">address</span><span class="p">,</span> <span class="nx">key</span><span class="p">,</span> <span class="nx">value</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">kvStore</span>  <span class="o">=</span> <span class="k">new</span> <span class="nx">Blockchain</span><span class="p">.</span><span class="nx">Contract</span><span class="p">(</span><span class="nx">address</span><span class="p">,</span> <span class="nx">contractInterface</span><span class="p">);</span>
+    <span class="nx">kvStore</span><span class="p">.</span><span class="nx">value</span><span class="p">(</span><span class="mi">20000000000000000</span><span class="p">).</span><span class="nx">save</span><span class="p">(</span><span class="nx">key</span><span class="p">,</span> <span class="nx">value</span><span class="p">);</span>
+  <span class="p">},</span>
+  <span class="na">saveByCall</span><span class="p">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">address</span><span class="p">,</span> <span class="nx">key</span><span class="p">,</span> <span class="nx">value</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">kvStore</span>  <span class="o">=</span> <span class="k">new</span> <span class="nx">Blockchain</span><span class="p">.</span><span class="nx">Contract</span><span class="p">(</span><span class="nx">address</span><span class="p">,</span> <span class="nx">contractInterface</span><span class="p">);</span>
+    <span class="kd">var</span> <span class="nx">args</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Array</span><span class="p">();</span>
+    <span class="nx">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="nx">key</span><span class="p">;</span>
+    <span class="nx">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="nx">value</span><span class="p">;</span>
+    <span class="nx">kvStore</span><span class="p">.</span><span class="nx">value</span><span class="p">(</span><span class="mi">20000000000000000</span><span class="p">).</span><span class="nx">call</span><span class="p">(</span><span class="s1">'save'</span><span class="p">,</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">args</span><span class="p">));</span>
+  <span class="p">},</span>
+  <span class="na">get</span><span class="p">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">address</span><span class="p">,</span> <span class="nx">key</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">kvStore</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Blockchain</span><span class="p">.</span><span class="nx">Contract</span><span class="p">(</span><span class="nx">address</span><span class="p">,</span> <span class="nx">contractInterface</span><span class="p">);</span>
+    <span class="k">return</span> <span class="nx">kvStore</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="nx">key</span><span class="p">)</span>
+  <span class="p">},</span>
+<span class="p">}</span>
+
+<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="nx">proxyKvStore</span><span class="p">;</span>
+</code></pre><pre class="highlight javascript tab-javascript"><code><span class="c1">// kvStore.js:</span>
+
+<span class="kd">var</span> <span class="nx">item</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">JSONString</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">JSONString</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">JSONString</span><span class="p">);</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">key</span> <span class="o">=</span> <span class="nx">obj</span><span class="p">.</span><span class="nx">key</span><span class="p">;</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">value</span> <span class="o">=</span> <span class="nx">obj</span><span class="p">.</span><span class="nx">value</span><span class="p">;</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">author</span> <span class="o">=</span> <span class="nx">Blockchain</span><span class="p">.</span><span class="nx">transaction</span><span class="p">.</span><span class="nx">from</span><span class="p">;</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">key</span> <span class="o">=</span> <span class="s2">""</span><span class="p">;</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">author</span> <span class="o">=</span> <span class="s2">""</span><span class="p">;</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">value</span> <span class="o">=</span> <span class="s2">""</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="nx">item</span><span class="p">.</span><span class="nx">prototype</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">toString</span><span class="p">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="kd">var</span> <span class="nx">kvStore</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+  <span class="nx">LocalContractStorage</span><span class="p">.</span><span class="nx">defineMapProperty</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="s2">"repo"</span><span class="p">,</span> <span class="p">{</span>
+    <span class="na">parse</span><span class="p">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">text</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="k">new</span> <span class="nx">item</span><span class="p">(</span><span class="nx">text</span><span class="p">);</span>
+    <span class="p">},</span>
+    <span class="na">stringify</span><span class="p">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">o</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="nx">o</span><span class="p">.</span><span class="nx">toString</span><span class="p">();</span>
+    <span class="p">}</span>
+  <span class="p">});</span>
+<span class="p">};</span>
+
+<span class="nx">kvStore</span><span class="p">.</span><span class="nx">prototype</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">init</span><span class="p">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// todo</span>
+  <span class="p">},</span>
+  <span class="na">save</span><span class="p">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">key</span><span class="p">,</span> <span class="nx">value</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">key</span> <span class="o">=</span> <span class="nx">key</span><span class="p">.</span><span class="nx">trim</span><span class="p">();</span>
+    <span class="nx">value</span> <span class="o">=</span> <span class="nx">value</span><span class="p">.</span><span class="nx">trim</span><span class="p">();</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">key</span> <span class="o">===</span> <span class="s2">""</span> <span class="o">||</span> <span class="nx">value</span> <span class="o">===</span> <span class="s2">""</span><span class="p">){</span>
+      <span class="k">throw</span> <span class="k">new</span> <span class="nb">Error</span><span class="p">(</span><span class="s2">"empty key / value"</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">value</span><span class="p">.</span><span class="nx">length</span> <span class="o">&gt;</span> <span class="mi">128</span> <span class="o">||</span> <span class="nx">key</span><span class="p">.</span><span class="nx">length</span> <span class="o">&gt;</span> <span class="mi">128</span><span class="p">){</span>
+      <span class="k">throw</span> <span class="k">new</span> <span class="nb">Error</span><span class="p">(</span><span class="s2">"key / value exceed limit length"</span><span class="p">)</span>
+    <span class="p">}</span>
+
+    <span class="kd">var</span> <span class="nx">from</span> <span class="o">=</span> <span class="nx">Blockchain</span><span class="p">.</span><span class="nx">transaction</span><span class="p">.</span><span class="nx">from</span><span class="p">;</span>
+    <span class="kd">var</span> <span class="nx">item</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">repo</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="nx">key</span><span class="p">);</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="nx">item</span><span class="p">){</span>
+      <span class="k">throw</span> <span class="k">new</span> <span class="nb">Error</span><span class="p">(</span><span class="s2">"value has been taken"</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="nx">item</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">item</span><span class="p">();</span>
+    <span class="nx">item</span><span class="p">.</span><span class="nx">author</span> <span class="o">=</span> <span class="nx">from</span><span class="p">;</span>
+    <span class="nx">item</span><span class="p">.</span><span class="nx">key</span> <span class="o">=</span> <span class="nx">key</span><span class="p">;</span>
+    <span class="nx">item</span><span class="p">.</span><span class="nx">value</span> <span class="o">=</span> <span class="nx">value</span><span class="p">;</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">repo</span><span class="p">.</span><span class="nx">put</span><span class="p">(</span><span class="nx">key</span><span class="p">,</span> <span class="nx">item</span><span class="p">);</span>
+  <span class="p">},</span>
+
+    <span class="na">get</span><span class="p">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">key</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">key</span> <span class="o">=</span> <span class="nx">key</span><span class="p">.</span><span class="nx">trim</span><span class="p">();</span>
+        <span class="k">if</span> <span class="p">(</span> <span class="nx">key</span> <span class="o">===</span> <span class="s2">""</span> <span class="p">)</span> <span class="p">{</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="nb">Error</span><span class="p">(</span><span class="s2">"empty key"</span><span class="p">)</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">repo</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="nx">key</span><span class="p">);</span>
+    <span class="p">},</span> 
+
+    <span class="na">throwErr</span><span class="p">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">throw</span><span class="p">(</span><span class="s2">"err for test"</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="nx">kvStore</span><span class="p">;</span>
+</code></pre>
+<blockquote>
+<p>In the example, to use KvStore, we first should define an interface like this:</p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code><span class="kd">var</span> <span class="nx">contractInterface</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="na">save</span><span class="p">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">key</span><span class="p">,</span> <span class="nx">value</span><span class="p">)</span> <span class="p">{</span>
+    <span class="p">},</span>
+    <span class="na">get</span><span class="p">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">key</span><span class="p">)</span> <span class="p">{</span>
+    <span class="p">},</span>
+<span class="p">}</span>
+</code></pre>
+<blockquote>
+<p>Then, create a contract object with the interface and the address of the contract you want to call:</p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code><span class="kd">var</span> <span class="nx">kvStore</span>  <span class="o">=</span> <span class="k">new</span> <span class="nx">Blockchain</span><span class="p">.</span><span class="nx">Contract</span><span class="p">(</span><span class="nx">address</span><span class="p">,</span> <span class="nx">contractInterface</span><span class="p">);</span>
+</code></pre>
+<blockquote>
+<p>After that, we can call function in KvStore.js thought this object:
+<code>javascript
+kvStore.value(2000000000000000000).save(key, value);
+// or kvStore.save(key, value);
+</code></p>
+
+<p>as well as this way, keep the style of calling a function by sendRawTransaction RPC:</p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code><span class="nx">kvStore</span><span class="p">.</span><span class="nx">value</span><span class="p">(</span><span class="mi">2000000000000000000</span><span class="p">).</span><span class="nx">call</span><span class="p">(</span><span class="s1">'save'</span><span class="p">,</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">args</span><span class="p">));</span>
+</code></pre>
+<blockquote>
+<p>the &#39;value&#39; function decides how much nas will be transfered to callee contract. It is not necessary， and the default value is 0.
+It should be noted that in the execution environment of the callee contract, Blockchain.from returns the address of the caller contract, and Blockchain.value is determined by the parameter of the &#39;value&#39; function executed by the caller contract.</p>
+</blockquote>
 
       </div>
       <div class="dark-box">
