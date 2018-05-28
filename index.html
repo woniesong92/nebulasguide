@@ -239,6 +239,12 @@
                   <li>
                     <a href="#write-to-smart-contract" class="toc-h2 toc-link" data-title="write-to-smart-contract">Write to Smart Contract</a>
                   </li>
+                  <li>
+                    <a href="#add-validation" class="toc-h2 toc-link" data-title="add-validation">Add Validation</a>
+                  </li>
+                  <li>
+                    <a href="#deploy-to-production" class="toc-h2 toc-link" data-title="deploy-to-production">Deploy to Production</a>
+                  </li>
               </ul>
           </li>
       </div>
@@ -574,6 +580,62 @@ Unlike Ethereum, you do not have to learn a new langauge (e.g. Solidity).</p>
 <p>When you look at the function <code>onAddDog()</code> on the right side, you will notice that it is extremly similar to the function <code>fetchDogs()</code> we wrote above. The biggest difference is that instead of using the nebulas api directly, we are now using the <code>nebpay</code> package. This package lets users interact with your smart contract directly via either the <a href="https://github.com/ChengOrangeJu/WebExtensionWallet">Chrome extension</a> or the mobile nebulas wallet. In other words, <code>nebpay</code> lets end users sign and send transactions to your smart contract.</p>
 
 <p>Why is it needed? It&#39;s because altering the state in Nebulas blockchain requires a small amount of NAS, just like how Ethereum requires GAS for altering its state. While calling the <code>getDogs()</code> function does not alter the state, <code>addDog()</code> does. Consequently, users who want to add a dog to your smart contract must sign and send the transaction to your contract by paying a small fee. <code>nebpay</code> allows you to implement such interaction as easily as just using the <code>nebulas</code> package.</p>
+
+<p>As a result of <code>nebPay.call()</code>, you get a transaction hash and you can optionally pass in a listener to know when the transaction has been confirmed. However, for now, we will just leave the code as simple as it is on the right side. Try clicking the button <code>Add Dog</code> and refresh the page in 30 seconds to 1 minute (i.e. the time it takes for the transaction to be confirmed on Testnet). Verify that you see an added dog in your app.</p>
+<h2 id='add-validation'>Add Validation</h2>
+<blockquote>
+<p>Add a new property <code>author</code> where we will store deployer&#39;s address</p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code><span class="kd">var</span> <span class="nx">FirstContract</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+  <span class="nx">LocalContractStorage</span><span class="p">.</span><span class="nx">defineProperty</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="s2">"numDogs"</span><span class="p">)</span>
+  <span class="nx">LocalContractStorage</span><span class="p">.</span><span class="nx">defineMapProperty</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="s2">"dogs"</span><span class="p">)</span>
+  <span class="nx">LocalContractStorage</span><span class="p">.</span><span class="nx">defineProperty</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="s2">"author"</span><span class="p">)</span>
+<span class="p">}</span>
+<span class="p">...</span>
+</code></pre>
+<blockquote>
+<p>In <code>init()</code>, set author to be the deployer (i.e. you)
+and check if the sender is the author in <code>addDog()</code></p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code><span class="nx">FirstContract</span><span class="p">.</span><span class="nx">prototype</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">init</span><span class="p">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="p">...</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">author</span> <span class="o">=</span> <span class="nx">Blockchain</span><span class="p">.</span><span class="nx">transaction</span><span class="p">.</span><span class="nx">from</span>
+  <span class="p">},</span>
+  <span class="na">addDog</span><span class="p">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">name</span><span class="p">,</span> <span class="nx">url</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">Blockchain</span><span class="p">.</span><span class="nx">transaction</span><span class="p">.</span><span class="nx">from</span> <span class="o">!==</span> <span class="k">this</span><span class="p">.</span><span class="nx">author</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">throw</span> <span class="k">new</span> <span class="nb">Error</span><span class="p">(</span><span class="s2">"You are not the author"</span><span class="p">)</span>
+    <span class="p">}</span>
+
+    <span class="kd">var</span> <span class="nx">dog</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Dog</span><span class="p">(</span><span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">({</span>
+      <span class="na">name</span><span class="p">:</span> <span class="nx">name</span><span class="p">,</span>
+      <span class="na">url</span><span class="p">:</span> <span class="nx">url</span><span class="p">,</span>
+    <span class="p">}))</span>
+
+    <span class="k">this</span><span class="p">.</span><span class="nx">dogs</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">numDogs</span><span class="p">,</span> <span class="nx">dog</span><span class="p">)</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">numDogs</span> <span class="o">+=</span> <span class="mi">1</span>
+  <span class="p">},</span>
+<span class="p">}</span>
+</code></pre>
+<p>But do you really want to let everyone add Dog to your app? Well, adding a dog to your app now is harmless, but what if you want to build a <a href="http://naswarriors.soulchain.org">dapp</a> that should only let authors add new items?</p>
+
+<p>To do this, we need to add validation. More specifically, in the function that adds a new dog, we need to check whether the <em>user</em> (i.e. the person who just sent a transaction to our contract) is the author. In other words, we want to validate that <code>user.address === author.address</code>. How do we get the author&#39;s address and the user&#39;s address?</p>
+
+<p>The author is the person who deploys the app. In the <code>init()</code> function, we have access to the deployer&#39;s address in the property <code>Blockchain.transaction.from</code>. <code>Blockchain.transaction</code> is also another special object that is available in a Nebulas smart contract that lets you access certain properties of a transaction. The counterpart of <code>Blockchain.transaction.from</code> is <code>Blockchain.transaction.to</code>. For now, we just need to add a new property <code>author</code> after <code>dogs</code> and <code>numDogs</code> so that we can store the author&#39;s address.</p>
+
+<p>In the function <code>addDog()</code> we can access the user&#39;s address the same way. Compare it with the author&#39;s address that we stored in the <code>init()</code> function and throw an error if they don&#39;t match. When you throw an error, the function will return with the error immediately. On the front end, if the contract throws any kind of an error as a result of user&#39;s transaction, you will get the error&#39;s message in response.</p>
+<h2 id='deploy-to-production'>Deploy to Production</h2>
+<p>This is the final section of the Quickstart! Now that we have built our first dapp, we have to deploy to production to be able to share it with other users. Deploying to production means hosting your frontend in a public address and deploying your smart contract to Mainnet.</p>
+<h3 id='host-your-frontend'>Host your frontend</h3>
+<p>If you want to use Nebulas as the primary backend, hosting your frontend is easy and free. Just build your project with yarn and upload your build folder to your favorite hosting service. This <a href="https://www.codementor.io/yurio/all-you-need-is-react-firebase-4v7g9p4kf">guide</a> goes through how you can host your React app with Firebase. You can also just host it on <a href="https://pages.github.com/">GitHub Pages</a>. Whichever platform you decide to use, remember to change your Nebulas URL from <code>https://testnet.nebulas.io</code> to <code>https://mainnet.nebulas.io</code>.</p>
+
+<p>If you want to use your own backend in addition to Nebulas, here are a few options: <a href="https://heroku.com">Heroku</a>, <a href="https://www.digitalocean.com/">Digital Ocean</a>, <a href="https://aws.amazon.com/ec2/">AWS EC2</a>.</p>
+<h3 id='deploy-your-contract-to-mainnet'>Deploy your contract to Mainnet</h3>
+<p>Deploying your contract to Mainnet is exactly the same as deploying it to Testnet. Simply choose Mainnet instead of Testnet for your deployment environment. The main difference is that to deploy to Mainnet, you need real NAS (i.e. you cannot use the NAS you got from the testnet faucet). To get real NAS, you can purchase it from the <a href="https://coinmarketcap.com/currencies/nebulas-token/#markets">exchanges</a> that have NAS and transfer it to your Mainnet wallet.</p>
+
+<p><img src="images/web-wallet2.jpg" alt="Web-wallet2" /></p>
+
+<p>Congratulations! Now you have officially built and deployed a Dapp to the world.</p>
 
       </div>
       <div class="dark-box">
