@@ -379,7 +379,7 @@ We are <em>mocking</em> data here with a couple of dog objects. Let&#39;s replac
 <span class="p">}</span>
 
 <span class="kd">var</span> <span class="nx">FirstContract</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
-  <span class="c1">// Define storage properties (i.e. we will have two "storage variables" in our contract)</span>
+  <span class="c1">// Define storage properties</span>
   <span class="nx">LocalContractStorage</span><span class="p">.</span><span class="nx">defineProperty</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="s2">"numDogs"</span><span class="p">)</span>
   <span class="nx">LocalContractStorage</span><span class="p">.</span><span class="nx">defineMapProperty</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="s2">"dogs"</span><span class="p">)</span>
 <span class="p">}</span>
@@ -652,7 +652,7 @@ and check if the sender is the author in <code>addDog()</code></p>
 <h2 id='deploy-to-production'>Deploy to Production</h2>
 <p>This is the final section of the Quickstart! Now that we have built our first dapp, we have to deploy to production to be able to share it with other users. Deploying to production means hosting your frontend in a public address and deploying your smart contract to Mainnet.</p>
 <h3 id='host-your-frontend'>Host your frontend</h3>
-<p>If you want to use Nebulas as the primary backend, hosting your frontend is easy and free. Just build your project with yarn and upload your build folder to your favorite hosting service. This <a href="https://www.codementor.io/yurio/all-you-need-is-react-firebase-4v7g9p4kf">guide</a> goes through how you can host your React app with Firebase. You can also just host it on <a href="https://pages.github.com/">GitHub Pages</a>. Whichever platform you decide to use, remember to change your Nebulas URL from <code>https://testnet.nebulas.io</code> to <code>https://mainnet.nebulas.io</code>.</p>
+<p>If you want to use Nebulas as the primary backend, hosting your frontend is easy and free. Just build your project with yarn and upload your build folder to your favorite hosting service. This <a href="https://www.codementor.io/yurio/all-you-need-is-react-firebase-4v7g9p4kf">guide</a> goes through how you can host your React app with Firebase. You can also just host it on <a href="https://pages.github.com/">GitHub Pages</a>. Also remember to change your Nebulas URL from <code>https://testnet.nebulas.io</code> to <code>https://mainnet.nebulas.io</code>.</p>
 
 <p>If you want to use your own backend in addition to Nebulas, here are a few options: <a href="https://heroku.com">Heroku</a>, <a href="https://www.digitalocean.com/">Digital Ocean</a>, <a href="https://aws.amazon.com/ec2/">AWS EC2</a>.</p>
 <h3 id='deploy-your-contract-to-mainnet'>Deploy your contract to Mainnet</h3>
@@ -669,8 +669,11 @@ and check if the sender is the author in <code>addDog()</code></p>
 <li><a href="https://nebulas.io/resources.html">Nebulas Resources</a></li>
 <li><a href="https://www.reddit.com/r/nebulas">Nebulas Subreddit</a></li>
 <li><a href="https://medium.com/@nebulasio">Nebulas Medium</a></li>
+<li><a href="http://soulchain.org">Soulchain.org</a></li>
 </ul>
-<h1 id='api'>API</h1><h2 id='blockchain'>Blockchain</h2>
+<h1 id='api'>API</h1>
+<p>This section is a modification of the <a href="https://github.com/nebulasio/wiki/blob/master/smart_contract.md">wiki</a>. If you prefer Chinese, read this <a href="https://github.com/nebulasio/wiki/blob/master/smart_contract_ch.md">doc</a>.</p>
+<h2 id='blockchain'>Blockchain</h2>
 <blockquote>
 <p>Blockchain API Usage</p>
 </blockquote>
@@ -896,7 +899,6 @@ and check if the sender is the author in <code>addDog()</code></p>
 </code></pre>
 <p>The <code>BigNumber</code> module use the <a href="https://github.com/MikeMcl/bignumber.js">bignumber.js</a>(v4.1.0), a JavaScript library for arbitrary-precision decimal and non-decimal arithmetic. The contract can use <code>BigNumber</code> directly to handle the value of the transaction and other values transfer.</p>
 <h2 id='event'>Event</h2><pre class="highlight javascript tab-javascript"><code>  <span class="c1">// Event.Trigger("eventName", customObject)</span>
-
   <span class="nx">Event</span><span class="p">.</span><span class="nx">Trigger</span><span class="p">(</span><span class="s2">"transfer"</span><span class="p">,</span> <span class="p">{</span>
     <span class="na">Transfer</span><span class="p">:</span> <span class="p">{</span>
       <span class="na">from</span><span class="p">:</span> <span class="nx">Blockchain</span><span class="p">.</span><span class="nx">transaction</span><span class="p">.</span><span class="nx">to</span><span class="p">,</span>
@@ -973,7 +975,7 @@ and check if the sender is the author in <code>addDog()</code></p>
 
 <span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="nx">BankVaultContract</span><span class="p">;</span>
 </code></pre>
-<p>NOTE:</p>
+<p>There are some limitations in Nebulas&#39; <code>Date</code> function.</p>
 
 <ul>
 <li>Unsupported methods：<code>toDateString()</code>, <code>toTimeString()</code>, <code>getTimezoneOffset()</code>, <code>toLocaleXXX()</code>.</li>
