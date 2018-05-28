@@ -29,7 +29,7 @@ In Quickstart, we will deploy a simple React app to Nebulas.
 
 ## Create React app
 
-> 1.Create a react app:
+> Create a react app:
 
 ```shell
 $ npm install -g create-react-app
@@ -37,7 +37,7 @@ $ npm install -g create-react-app
 $ create-react-app my-nebulas
 ```
 
-> 2.Verify that your react app is created successfully:
+> Verify that your react app is created successfully:
 
 ```shell
 $ cd my-nebulas
@@ -51,7 +51,7 @@ You should see this screen when your react app is running.
 
 For our first app, we will build an app that lets users share doc pictures on Nebulas. For now, let's just grab a cute dog picture and show it in our app.
 
-> 3.Modify your React component like this:
+> Modify your React component like this:
 
 ```javascript
 import React, { Component } from 'react';
@@ -96,7 +96,7 @@ We are *mocking* data here with a couple of dog objects. Let's replace them with
 
 ## Write Smart Contract
 
-> 4.Create a new contract file:
+> Create a new contract file:
 
 ```shell
 $ mkdir contract
@@ -151,8 +151,8 @@ FirstContract.prototype = {
     }
   },
 
-  // add() will add a new dog to your contract's storage
-  add: function(name, url) {
+  // addDog() will add a new dog to your contract's storage
+  addDog: function(name, url) {
     var dog = new Dog(JSON.stringify({
       name: name,
       url: url,
@@ -160,6 +160,18 @@ FirstContract.prototype = {
 
     this.dogs.set(this.numDogs, dog)
     this.numDogs += 1
+  },
+
+  getDogs: function() {
+    var dogs = []
+
+    for (var i=0; i<this.numDogs; i++) {
+      var dog = this.dogs.get(i)
+
+      dogs.push(dog)
+    }
+
+    return dogs
   },
 }
 
@@ -171,13 +183,13 @@ Unlike Ethereum, you do not have to learn a new langauge (e.g. Solidity).
 
 In this simple smart contract, we first define a simple `Dog` constructor that takes in a stringified json and creates a `Dog` object.
 
-Then, we define the main contract with only two functions: `init` and `add`. When you define an `init` function, this will be executed when you first deploy your smtart contract to Nebulas. For example, if you want to *populate* your contract with a few cute dogs before users upload new dogs, this is the right place.
+Then, we define the main contract with only a few functions: `init`, `addDog`, and `getDogs`. When you define an `init` function, this will be executed when you first deploy your smtart contract to Nebulas. For example, if you want to *populate* your contract with a few cute dogs before users upload new dogs, this is the right place.
 
 If you already know JavaSript, every line should be familar except for the lines that have `LocalContractStorage` in them. `LocalContractStorage` is a reserved function, which lets you have access to Nebulas' storage. Think of `LocalContractStorage.defineProperty(this, "numDogs")` as saying *"I am going to create a persistent variable `numDogs` in Nebulas"*. The difference between `defineProperty` and `defineMapProperty` is simply that the former is a primitive-type store while the latter is a key-value store.
 
 ## Deploy Smart Contract
 
-> 5.Download Web Wallet
+> Download Web Wallet
 
 ```shell
 $ git clone git@github.com:nebulasio/web-wallet.git
@@ -202,9 +214,154 @@ After you deploy (i.e. submit) your contract, you will get the transaction hash 
 
 Congratulations! You have your first contract deployed to Nebulas.
 
-## Interact with Smart Contract
+## Read from Smart Contract
 
+> Install Nebulas package in your React app
 
+```shell
+$ yarn add nebulas
+```
+
+> Use the dog objects from contract in your React app
+
+```javascript
+import React, { Component } from 'react'
+import nebulas from 'nebulas'
+
+class App extends Component {
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      dogs: [],
+    }
+  }
+
+  componentWillMount() {
+    this.fetchDogs()
+  }
+
+  fetchDogs() {
+    const CONTRACT_ADDRESS = "YOUR_CONTRACT_ADDRESS"
+    const AUTHOR_ADDRESS = "YOUR_WALLET_ADDRESS"
+    const NEBULAS_URL = "https://testnet.nebulas.io"
+    const Account = nebulas.Account
+    const neb = new nebulas.Neb()
+    const request = new nebulas.HttpRequest(NEBULAS_URL)
+    const value = "0"
+    const nonce = "0"
+    const gas_price = "1000000"
+    const gas_limit = "2000000"
+    const callFunction = "getDogs"
+    const callArgs = ""  
+    const contract = {
+      "function": callFunction,
+      "args": callArgs
+    }
+
+    neb.setRequest(request)
+    neb.api.call(
+      AUTHOR_ADDRESS,
+      CONTRACT_ADDRESS,
+      value, nonce,
+      gas_price, gas_limit,
+      contract
+    ).then((resp) => {
+      this.setState({
+        dogs: JSON.parse(resp.result),
+      })
+    }).catch((err) => {
+      console.log("error:" + err.message)
+    })
+  }
+
+  render() {
+    const {dogs} = this.state
+
+    return (
+      <div className="App">
+        {dogs.map((dog) => (
+          <div>
+            <label>{dog.name}</label>
+            <img src={dog.url} />
+          </div>  
+        ))}
+      </div>
+    );
+  }
+}
+```
+
+Now that we have deployed our contract to Nebulas, we are ready to replace our mock data in our React app with actual the data from our contract in Nebulas.
+
+To interact with the smart contract, you need to install the [nebulas package](https://www.npmjs.com/package/nebulas) in your React app. Then, we will call the `getDogs()` function in our smart contract via the API in `componentWillMount()` and update our state. For now, do not worry too much about the parameters we pass into `neb.api.call` as you will get used to them naturally as you interact more with your contract in future.
+
+If you did everything correctly, you should see exactly the same screen as you saw when you go to your React app. However this time, the dog objects are coming straight from the smart contract instead of the static mock data. After all, interacting with Nebulas is just as simple as interacting with a 3rd-party API service.
+
+## Write to Smart Contract
+
+> Install [nebpay](https://www.npmjs.com/package/nebpay) package
+
+```shell
+$ yarn add nebpay
+```
+
+> Add a button to add a dog and the corresponding handler
+
+```javascript
+import React, { Component } from 'react'
+import nebulas from 'nebulas'
+import NebPay from 'nebpay'
+
+class App extends Component {
+  ...
+  onAddDog() {
+    const newDog = {
+      name: "myDog",
+      url: "someUrl.jpg"
+    }
+    const nebPay = new NebPay()
+    const price = 0
+    const callFunction = "addDog"
+    const callArgs = JSON.stringify([newDog])
+    const opts = {}
+    
+    nebPay.call(
+      CONTRACT_ADDRESS,
+      price,
+      callFunction,
+      callArgs,
+      opts,
+    )
+  }
+
+  render() {
+    const {dogs} = this.state
+
+    return (
+      <div className="App">
+        <div>
+          {dogs.map((dog) => (
+            <div>
+              <label>{dog.name}</label>
+              <img src={dog.url} />
+            </div>
+          ))}
+        </div>
+        <div>
+          <button onClick={this.onAddDog}>Add Dog</button>
+        </div>
+      </div>
+    );
+  }
+}
+```
+
+Remember how we wanted to let users add dogs to our contract? Since our contract already has `addDog()` function, we just need to add a way for our React app to call this function. In other words, we need to add a button and its corresponding handler. For now, let's skip adding an input field and just have users add *a dog* with the same name and image.
+
+When you look at the function `onAddDog()` on the right side, you will notice that it is extremly similar to the function `fetchDogs()` we wrote above. The biggest difference is that instead of using the nebulas api directly, we are now using the `nebpay` package. This package lets users interact with your smart contract directly via either the [Chrome extension](https://github.com/ChengOrangeJu/WebExtensionWallet) or the mobile nebulas wallet. In other words, `nebpay` lets end users sign and send transactions to your smart contract.
+
+Why is it needed? It's because altering the state in Nebulas blockchain requires a small amount of NAS, just like how Ethereum requires GAS for altering its state. While calling the `getDogs()` function does not alter the state, `addDog()` does. Consequently, users who want to add a dog to your smart contract must sign and send the transaction to your contract by paying a small fee. `nebpay` allows you to implement such interaction as easily as just using the `nebulas` package.
 
 # Kittens
 
